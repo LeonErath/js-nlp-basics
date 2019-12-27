@@ -1,10 +1,12 @@
 import React from "react";
 import Visualizer from "./components/Visualizer";
+import Navbar from "./components/Navbar";
 
 const App = () => {
 	return (
 		<div>
-			<h1>Hello World</h1>
+			<Navbar></Navbar>
+
 			<Visualizer></Visualizer>
 		</div>
 	);
