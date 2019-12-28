@@ -5,17 +5,18 @@ const { Option } = Select;
 
 const Container = styled.div`
 	display: flex;
-	margin: 4px;
+	margin-bottom: 16px;
+	margin-top: 16px;
 	align-items: center;
 `;
 
 const Toolbar = () => {
 	return (
 		<Container>
-			<Button style={{ margin: "4px" }}>Click me</Button>
+			<Button style={{ marginRight: "8px" }}>Click me</Button>
 			<Select
 				mode="multiple"
-				style={{ width: "100%", margin: "4px", maxWidth: "600px" }}
+				style={{ width: "100%", marginRight: "8px", maxWidth: "600px" }}
 				placeholder="select one or more methods"
 				defaultValue={["pos"]}
 				optionLabelProp="label">
@@ -32,7 +33,7 @@ const Toolbar = () => {
 					NER-Tagging
 				</Option>
 			</Select>
-			<Select defaultValue="compromise" style={{ width: 120, margin: "4px" }}>
+			<Select defaultValue="compromise" style={{ width: 120 }}>
 				<Option value="compromise">Compromise</Option>
 				<Option value="google-nlp">Google NLP</Option>
 				<Option value="spacy">SpaCy</Option>

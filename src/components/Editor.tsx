@@ -6,14 +6,11 @@ import Toolbar from "./Toolbar";
 import { TagColors, Tag } from "./Tag";
 import HoveringMenu from "./HoveringMenu";
 
-const Container = styled.div`
-	margin: 64px;
-`;
+const Container = styled.div``;
 
 const EditorDiv = styled.div`
 	min-height: 400px;
 	border: 1px solid #d9d9d9;
-	margin: 8px;
 	padding: 16px;
 	line-height: 2;
 	border-radius: 4px;

@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import Editor from "./Editor";
+import Word2VecEditor from "./Word2VecEditor";
 import { Text, Range } from "slate";
 import nlp from "compromise";
+import { Select } from "antd";
+import styled from "styled-components";
+
+const { Option } = Select;
+
+const Container = styled.div`
+	margin: 64px;
+`;
 
 const Visualizer = () => {
+	const [current, setCurrent] = useState("tagging");
+
+	function handleChange(value: string) {
+		setCurrent(value);
+	}
+
 	const analyze = ([node, path]: any) => {
 		let ranges: Range[] = [];
 
@@ -29,7 +44,20 @@ const Visualizer = () => {
 		return ranges;
 	};
 
-	return <Editor analyze={analyze}></Editor>;
+	return (
+		<Container>
+			<Select
+				defaultValue={current}
+				style={{ width: 120 }}
+				onChange={handleChange}>
+				<Option value="tagging">Tagging</Option>
+				<Option value="word2vec">Word2Vec</Option>
+			</Select>
+
+			{current === "tagging" && <Editor analyze={analyze}></Editor>}
+			{current === "word2vec" && <Word2VecEditor></Word2VecEditor>}
+		</Container>
+	);
 };
 
 export default Visualizer;

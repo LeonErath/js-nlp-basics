@@ -16,7 +16,7 @@ const MenuBar = styled.div`
 `;
 
 const Description = styled.span`
-	font-size: 20px;
+	font-size: 22px;
 	font-weight: bold;
 	padding: 0px 16px;
 	text-transform: uppercase;
