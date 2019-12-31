@@ -8,7 +8,7 @@ Word2Vec
 */
 
 import * as tf from "@tensorflow/tfjs";
-import jsonModel from "../data/wordvecs10000.json";
+
 import { SimilarWord, OperationType } from "../models";
 
 class Word2Vec {
@@ -21,22 +21,35 @@ class Word2Vec {
 
 		this.modelSize = 0;
 		this.modelLoaded = false;
-
-		this.loadModel();
 	}
 
-	async loadModel() {
-		const jsonModel2 = jsonModel as any;
-		Object.keys(jsonModel2.vectors).forEach(word => {
-			this.model[word] = tf.tensor1d(jsonModel2.vectors[word]);
+	loadModel(path: string) {
+		return new Promise((resolve, reject) => {
+			try {
+				fetch(path)
+					.then(r => r.json())
+					.then((model: any) => {
+						Object.keys(model.vectors).forEach(word => {
+							this.model[word] = tf.tensor1d(model.vectors[word]);
+						});
+						console.log(this.model);
+
+						this.modelSize = Object.keys(this.model).length;
+						this.modelLoaded = true;
+						resolve();
+					});
+			} catch (e) {
+				reject(e);
+			}
 		});
-		this.modelSize = Object.keys(this.model).length;
-		this.modelLoaded = true;
-		return this;
 	}
 
 	dispose() {
 		Object.values(this.model).forEach((x: any) => x.dispose());
+		this.model = {};
+		this.modelSize = 0;
+		this.modelLoaded = false;
+		return this;
 	}
 
 	async add(inputs: string[], amount?: number) {

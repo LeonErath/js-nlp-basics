@@ -17,6 +17,5 @@
 		"noEmit": true,
 		"jsx": "react"
 	},
-	"include": ["src"],
-	"exclude": ["src/data"]
+	"include": ["src", "types"]
 }

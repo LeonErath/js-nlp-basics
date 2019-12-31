@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import word2vec from "../Word2Vec";
-import { Input, Button, Table, Empty, InputNumber } from "antd";
+import { Input, Button, Table, Empty, InputNumber, Spin, Select } from "antd";
 import { SimilarWord } from "../models";
+
+const { Option } = Select;
 
 const columns = [
 	{
@@ -27,15 +29,54 @@ const Symbol = styled.div`
 
 const wordVectors = word2vec();
 
+const modelURLs = new Map([
+	["wiki_ger", "http://localhost:3000/data/wikipedia_german.json"],
+	["ml5_big", "http://localhost:3000/data/wordvecs10000.json"],
+	["ml5_medium", "http://localhost:3000/data/wordvecs5000.json"],
+	["ml5_small", "http://localhost:3000/data/wordvecs1000.json"]
+]);
+
 const Word2VecEditor = () => {
 	const [word, setWord] = useState("");
 	const [mathWord1, setMathWord1] = useState("");
 	const [mathWord2, setMathWord2] = useState("");
 	const [mathWord3, setMathWord3] = useState("");
 
+	const defaultUrl = "wiki_ger";
+	const [modelUrl, setModelUrl] = useState(modelURLs.get(defaultUrl));
+	const [loading, setLoading] = useState(false);
+
 	const [max, setMax] = useState(10);
 	const [similarWords, setSimilarWords] = useState<SimilarWord[]>([]);
 	const [similarWords2, setSimilarWords2] = useState<SimilarWord[]>([]);
+
+	useEffect(() => {
+		setLoading(true);
+		if (!modelUrl) {
+			return;
+		}
+		wordVectors
+			.dispose()
+			.loadModel(modelUrl)
+			.then(() => {
+				reset();
+
+				setLoading(false);
+			})
+			.catch(e => {
+				console.log(e);
+			});
+	}, [modelUrl]);
+
+	const reset = () => {
+		setWord("");
+		setMathWord1("");
+		setMathWord2("");
+		setMathWord3("");
+		setMax(10);
+		setSimilarWords([]);
+		setSimilarWords2([]);
+	};
 
 	const calculate = async () => {
 		if (
@@ -48,7 +89,6 @@ const Word2VecEditor = () => {
 			setMathWord3("france");
 
 			const subResult = await wordVectors.subtract(["paris", "france"]);
-
 			const result = await wordVectors.add([subResult[0].word, "germany"]);
 			setSimilarWords2(result);
 		} else {
@@ -92,10 +132,27 @@ const Word2VecEditor = () => {
 		}
 	};
 
+	const handleModelChange = (e: any) => {
+		setModelUrl(modelURLs.get(e));
+	};
+
 	return (
 		<Container>
-			<div style={{ display: "flex", width: "100%" }}>
+			<div style={{ display: "flex", width: "100%", alignItems: "center" }}>
+				<Select
+					defaultValue={defaultUrl}
+					style={{ width: 200 }}
+					onChange={handleModelChange}>
+					<Option value="wiki_ger">Wikipedia German</Option>
+					<Option value="ml5_big">ML5JS Big English</Option>
+					<Option value="ml5_medium">ML5JS Medium English</Option>
+					<Option value="ml5_small">ML5JS Small English</Option>
+				</Select>
+				{loading && <Spin style={{ marginLeft: "8px" }}></Spin>}
+			</div>
+			<div style={{ display: "flex", width: "100%", marginTop: "16px" }}>
 				<Input
+					disabled={loading}
 					onKeyDown={e => {
 						if (e.key === "Enter") {
 							getNearestVectors();
@@ -107,6 +164,7 @@ const Word2VecEditor = () => {
 					onChange={e => setWord(e.target.value)}
 				/>
 				<InputNumber
+					disabled={loading}
 					min={1}
 					max={50}
 					defaultValue={max}
@@ -117,11 +175,14 @@ const Word2VecEditor = () => {
 					}}
 					style={{ marginRight: "8px" }}
 				/>
-				<Button onClick={getNearestVectors}>Calculate</Button>
+				<Button onClick={getNearestVectors} disabled={loading}>
+					Calculate
+				</Button>
 			</div>
 			{similarWords.length === 0 && (
 				<Empty style={{ marginTop: "32px" }}></Empty>
 			)}
+
 			{similarWords.length !== 0 && (
 				<Table
 					dataSource={similarWords}
@@ -138,6 +199,7 @@ const Word2VecEditor = () => {
 					alignItems: "center"
 				}}>
 				<Input
+					disabled={loading}
 					value={mathWord1}
 					style={{ width: "200px" }}
 					placeholder="Germany"
@@ -147,6 +209,7 @@ const Word2VecEditor = () => {
 				<Symbol>+</Symbol>
 				<Symbol>(</Symbol>
 				<Input
+					disabled={loading}
 					value={mathWord2}
 					style={{ width: "200px" }}
 					placeholder="Paris"
@@ -154,13 +217,16 @@ const Word2VecEditor = () => {
 				/>
 				<Symbol>-</Symbol>
 				<Input
+					disabled={loading}
 					value={mathWord3}
 					style={{ marginRight: "8px", width: "200px" }}
 					placeholder="France"
 					onChange={e => setMathWord3(e.target.value)}
 				/>
 				<Symbol>)</Symbol>
-				<Button onClick={calculate}>Calculate</Button>
+				<Button disabled={loading} onClick={calculate}>
+					Calculate
+				</Button>
 			</div>
 			{similarWords2.length === 0 && (
 				<Empty style={{ marginTop: "32px" }}></Empty>
