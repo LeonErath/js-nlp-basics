@@ -32,7 +32,6 @@ class Word2Vec {
 						Object.keys(model.vectors).forEach(word => {
 							this.model[word] = tf.tensor1d(model.vectors[word]);
 						});
-						console.log(this.model);
 
 						this.modelSize = Object.keys(this.model).length;
 						this.modelLoaded = true;
@@ -143,39 +142,43 @@ class Word2Vec {
 	}
 
 	static addOrSubtract(model: any, values: string[], operation: OperationType) {
-		return tf.tidy(() => {
-			const vectors: any = [];
-			const notFound: any = [];
-			if (values.length < 2) {
-				throw new Error("Invalid input, must be passed more than 1 value");
-			}
-			values.forEach((value: any) => {
-				const vector = model[value];
-				if (!vector) {
-					notFound.push(value);
-				} else {
-					vectors.push(vector);
+		try {
+			return tf.tidy(() => {
+				const vectors: any = [];
+				const notFound: any = [];
+				if (values.length < 2) {
+					throw new Error("Invalid input, must be passed more than 1 value");
 				}
-			});
+				values.forEach((value: any) => {
+					const vector = model[value];
+					if (!vector) {
+						notFound.push(value);
+					} else {
+						vectors.push(vector);
+					}
+				});
 
-			if (notFound.length > 0) {
-				throw new Error(
-					`Invalid input, vector not found for: ${notFound.toString()}`
-				);
-			}
-			let result = vectors[0];
-			if (operation === OperationType.ADD) {
-				for (let i = 1; i < vectors.length; i += 1) {
-					result = tf.add(result, vectors[i]);
+				if (notFound.length > 0) {
+					throw new Error(
+						`Invalid input, vector not found for: ${notFound.toString()}`
+					);
 				}
-			}
-			if (operation === OperationType.SUBTRACT) {
-				for (let i = 1; i < vectors.length; i += 1) {
-					result = tf.sub(result, vectors[i]);
+				let result = vectors[0];
+				if (operation === OperationType.ADD) {
+					for (let i = 1; i < vectors.length; i += 1) {
+						result = tf.add(result, vectors[i]);
+					}
 				}
-			}
-			return result;
-		});
+				if (operation === OperationType.SUBTRACT) {
+					for (let i = 1; i < vectors.length; i += 1) {
+						result = tf.sub(result, vectors[i]);
+					}
+				}
+				return result;
+			});
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	static nearest(

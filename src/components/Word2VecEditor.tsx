@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import word2vec from "../Word2Vec";
-import { Input, Button, Table, Empty, InputNumber, Spin, Select } from "antd";
+import {
+	Input,
+	Button,
+	Table,
+	Empty,
+	InputNumber,
+	Spin,
+	Select,
+	message
+} from "antd";
 import { SimilarWord } from "../models";
 
 const { Option } = Select;
@@ -30,10 +39,10 @@ const Symbol = styled.div`
 const wordVectors = word2vec();
 
 const modelURLs = new Map([
-	["wiki_ger", "http://localhost:3000/data/wikipedia_german.json"],
-	["ml5_big", "http://localhost:3000/data/wordvecs10000.json"],
-	["ml5_medium", "http://localhost:3000/data/wordvecs5000.json"],
-	["ml5_small", "http://localhost:3000/data/wordvecs1000.json"]
+	["wiki_ger", "/data/wikipedia_german.json"],
+	["ml5_big", "/data/wordvecs10000.json"],
+	["ml5_medium", "/data/wordvecs5000.json"],
+	["ml5_small", "/data/wordvecs1000.json"]
 ]);
 
 const Word2VecEditor = () => {
@@ -42,7 +51,7 @@ const Word2VecEditor = () => {
 	const [mathWord2, setMathWord2] = useState("");
 	const [mathWord3, setMathWord3] = useState("");
 
-	const defaultUrl = "wiki_ger";
+	const defaultUrl = "ml5_small";
 	const [modelUrl, setModelUrl] = useState(modelURLs.get(defaultUrl));
 	const [loading, setLoading] = useState(false);
 
@@ -88,9 +97,15 @@ const Word2VecEditor = () => {
 			setMathWord2("paris");
 			setMathWord3("france");
 
-			const subResult = await wordVectors.subtract(["paris", "france"]);
-			const result = await wordVectors.add([subResult[0].word, "germany"]);
-			setSimilarWords2(result);
+			try {
+				const subResult = await wordVectors.subtract(["paris", "france"]);
+				const result = await wordVectors.add([subResult[0].word, "germany"]);
+				setSimilarWords2(result);
+			} catch (e) {
+				console.log(e);
+
+				message.info(`No results were found.`);
+			}
 		} else {
 			try {
 				const subResult = await wordVectors.subtract([mathWord2, mathWord3]);
@@ -100,6 +115,8 @@ const Word2VecEditor = () => {
 				}
 			} catch (e) {
 				console.log(e);
+
+				message.info(`No results were found.`);
 			}
 		}
 	};
@@ -117,6 +134,7 @@ const Word2VecEditor = () => {
 						setSimilarWords(result);
 					})
 					.catch((err: any) => {
+						message.error("An error occurred.");
 						console.log(err);
 					});
 			}
@@ -125,8 +143,12 @@ const Word2VecEditor = () => {
 				.nearest(word, max)
 				.then((result: SimilarWord[]) => {
 					setSimilarWords(result);
+					if (result.length === 0) {
+						message.info(`No results were found.`);
+					}
 				})
 				.catch((err: any) => {
+					message.info(`No results were found.`);
 					console.log(err);
 				});
 		}
