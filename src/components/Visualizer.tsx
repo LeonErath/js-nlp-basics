@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 const Visualizer = () => {
-	const [current, setCurrent] = useState("tagging");
+	const [current, setCurrent] = useState("word2vec");
 
 	function handleChange(value: string) {
 		setCurrent(value);
@@ -50,7 +50,9 @@ const Visualizer = () => {
 				defaultValue={current}
 				style={{ width: 120 }}
 				onChange={handleChange}>
-				<Option value="tagging">Tagging</Option>
+				<Option value="tagging" disabled>
+					Tagging
+				</Option>
 				<Option value="word2vec">Word2Vec</Option>
 			</Select>
 
