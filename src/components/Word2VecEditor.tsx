@@ -165,7 +165,9 @@ const Word2VecEditor = () => {
 					defaultValue={defaultUrl}
 					style={{ width: 200 }}
 					onChange={handleModelChange}>
-					<Option value="wiki_ger">Wikipedia German</Option>
+					<Option disabled value="wiki_ger">
+						Wikipedia German
+					</Option>
 					<Option value="ml5_big">ML5JS Big English</Option>
 					<Option value="ml5_medium">ML5JS Medium English</Option>
 					<Option value="ml5_small">ML5JS Small English</Option>
