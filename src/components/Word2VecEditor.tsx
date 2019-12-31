@@ -39,10 +39,10 @@ const Symbol = styled.div`
 const wordVectors = word2vec();
 
 const modelURLs = new Map([
-	["wiki_ger", "/data/wikipedia_german.json"],
-	["ml5_big", "/data/wordvecs10000.json"],
-	["ml5_medium", "/data/wordvecs5000.json"],
-	["ml5_small", "/data/wordvecs1000.json"]
+	["wiki_ger", "./data/wikipedia_german.json"],
+	["ml5_big", "./data/wordvecs10000.json"],
+	["ml5_medium", "./data/wordvecs5000.json"],
+	["ml5_small", "./data/wordvecs1000.json"]
 ]);
 
 const Word2VecEditor = () => {
