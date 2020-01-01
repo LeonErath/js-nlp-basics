@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Editor from "./Editor";
-import Word2VecEditor from "./Word2VecEditor";
+import Word2VecEditor from "./word2vec/Word2VecEditor";
 import { Text, Range } from "slate";
 import nlp from "compromise";
 import { Select } from "antd";
@@ -10,6 +10,7 @@ const { Option } = Select;
 
 const Container = styled.div`
 	margin: 64px;
+	max-width: 1000px;
 `;
 
 const Visualizer = () => {
@@ -45,20 +46,28 @@ const Visualizer = () => {
 	};
 
 	return (
-		<Container>
-			<Select
-				defaultValue={current}
-				style={{ width: 120 }}
-				onChange={handleChange}>
-				<Option value="tagging" disabled>
-					Tagging
-				</Option>
-				<Option value="word2vec">Word2Vec</Option>
-			</Select>
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				width: "100%",
+				alignItems: "center"
+			}}>
+			<Container>
+				<Select
+					defaultValue={current}
+					style={{ width: 120 }}
+					onChange={handleChange}>
+					<Option value="tagging" disabled>
+						Tagging
+					</Option>
+					<Option value="word2vec">Word2Vec</Option>
+				</Select>
 
-			{current === "tagging" && <Editor analyze={analyze}></Editor>}
-			{current === "word2vec" && <Word2VecEditor></Word2VecEditor>}
-		</Container>
+				{current === "tagging" && <Editor analyze={analyze}></Editor>}
+				{current === "word2vec" && <Word2VecEditor></Word2VecEditor>}
+			</Container>
+		</div>
 	);
 };
 

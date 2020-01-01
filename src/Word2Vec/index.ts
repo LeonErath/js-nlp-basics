@@ -15,11 +15,13 @@ class Word2Vec {
 	model: any = {};
 	modelSize: number = 0;
 	modelLoaded: boolean = false;
+	vectorDimensions: number = 0;
 
 	constructor() {
 		this.model = {};
 
 		this.modelSize = 0;
+		this.vectorDimensions = 0;
 		this.modelLoaded = false;
 	}
 
@@ -40,6 +42,9 @@ class Word2Vec {
 							this.model[word] = tf.tensor1d(model.vectors[word]);
 						});
 
+						this.vectorDimensions =
+							model.vectors[Object.keys(model.vectors)[0]].length;
+
 						this.modelSize = Object.keys(this.model).length;
 						this.modelLoaded = true;
 						resolve();
@@ -58,6 +63,7 @@ class Word2Vec {
 		Object.values(this.model).forEach((x: any) => x.dispose());
 		this.model = {};
 		this.modelSize = 0;
+		this.vectorDimensions = 0;
 		this.modelLoaded = false;
 		return this;
 	}

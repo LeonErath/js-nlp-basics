@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import word2vec from "../Word2Vec";
+import word2vec from "../../Word2Vec";
 import {
 	Input,
 	Button,
@@ -9,9 +9,13 @@ import {
 	InputNumber,
 	Spin,
 	Select,
-	message
+	message,
+	Statistic,
+	Row,
+	Col
 } from "antd";
-import { SimilarWord } from "../models";
+import { SimilarWord } from "../../models";
+import models from "./models.json";
 
 const { Option } = Select;
 
@@ -38,22 +42,15 @@ const Symbol = styled.div`
 
 const wordVectors = word2vec();
 
-const modelURLs = new Map([
-	["wiki_ger", "./data/wikipedia_german.json"],
-	["bible", "./data/bible.json"],
-	["ml5_big", "./data/wordvecs10000.json"],
-	["ml5_medium", "./data/wordvecs5000.json"],
-	["ml5_small", "./data/wordvecs1000.json"]
-]);
-
 const Word2VecEditor = () => {
 	const [word, setWord] = useState("");
 	const [mathWord1, setMathWord1] = useState("");
 	const [mathWord2, setMathWord2] = useState("");
 	const [mathWord3, setMathWord3] = useState("");
 
-	const defaultUrl = "ml5_small";
-	const [modelUrl, setModelUrl] = useState(modelURLs.get(defaultUrl));
+	const [modelIndex, setModelIndex] = useState(
+		models.findIndex(m => m.short_name === "ml5_medium")
+	);
 	const [loading, setLoading] = useState(false);
 
 	const [max, setMax] = useState(10);
@@ -62,12 +59,10 @@ const Word2VecEditor = () => {
 
 	useEffect(() => {
 		setLoading(true);
-		if (!modelUrl) {
-			return;
-		}
+
 		wordVectors
 			.dispose()
-			.loadModel(modelUrl)
+			.loadModel(models[modelIndex].url)
 			.then(() => {
 				reset();
 
@@ -76,7 +71,7 @@ const Word2VecEditor = () => {
 			.catch(e => {
 				console.log(e);
 			});
-	}, [modelUrl]);
+	}, [modelIndex]);
 
 	const reset = () => {
 		setWord("");
@@ -156,26 +151,65 @@ const Word2VecEditor = () => {
 	};
 
 	const handleModelChange = (e: any) => {
-		setModelUrl(modelURLs.get(e));
+		setModelIndex(models.findIndex(m => m.short_name === e));
 	};
 
 	return (
 		<Container>
 			<div style={{ display: "flex", width: "100%", alignItems: "center" }}>
 				<Select
-					defaultValue={defaultUrl}
+					defaultValue={models[modelIndex].short_name}
 					style={{ width: 200 }}
 					onChange={handleModelChange}>
-					<Option disabled value="wiki_ger">
-						Wikipedia German
-					</Option>
-					<Option value="bible">Bible (English)</Option>
-					<Option value="ml5_big">ML5JS Big English</Option>
-					<Option value="ml5_medium">ML5JS Medium English</Option>
-					<Option value="ml5_small">ML5JS Small English</Option>
+					{models.map(m => {
+						return (
+							<Option disabled={m.disable} value={m.short_name}>
+								{m.name}
+							</Option>
+						);
+					})}
 				</Select>
 				{loading && <Spin style={{ marginLeft: "8px" }}></Spin>}
 			</div>
+
+			<div style={{ marginTop: "32px", marginBottom: "32px" }}>
+				<Row
+					gutter={16}
+					style={{
+						display: "flex",
+						width: "100%",
+						alignItems: "center",
+						marginBottom: "64px"
+					}}>
+					<Col span={8} style={{ marginRight: "8px" }}>
+						<Statistic title="Model" value={models[modelIndex].name} />
+					</Col>
+					<Col span={4} style={{ marginRight: "8px" }}>
+						<Statistic title="Words/Vectors" value={wordVectors.modelSize} />
+					</Col>
+					<Col span={4}>
+						<Statistic
+							title="Dimensions"
+							value={wordVectors.vectorDimensions}
+						/>
+					</Col>
+				</Row>
+				<div
+					style={{
+						display: "flex",
+						width: "80%",
+						fontSize: "22px",
+						marginBottom: "16px"
+					}}>
+					Word Embeddings
+				</div>
+				<div style={{ display: "flex", width: "80%", fontSize: "16px" }}>
+					The embeddings you have trained will now be displayed. You can search
+					for words to find their closest neighbors. For example, try searching
+					for "beautiful". You may see neighbors like "wonderful".
+				</div>
+			</div>
+
 			<div style={{ display: "flex", width: "100%", marginTop: "16px" }}>
 				<Input
 					disabled={loading}
@@ -206,7 +240,7 @@ const Word2VecEditor = () => {
 				</Button>
 			</div>
 			{similarWords.length === 0 && (
-				<Empty style={{ marginTop: "32px" }}></Empty>
+				<Empty style={{ marginTop: "64px" }}></Empty>
 			)}
 
 			{similarWords.length !== 0 && (
@@ -217,6 +251,23 @@ const Word2VecEditor = () => {
 					size="middle"
 					style={{ marginTop: "16px" }}></Table>
 			)}
+			<div style={{ marginTop: "64px", marginBottom: "32px" }}>
+				<div
+					style={{
+						display: "flex",
+						width: "80%",
+						fontSize: "22px",
+						marginBottom: "16px"
+					}}>
+					Word Algebra
+				</div>
+				<div style={{ display: "flex", width: "80%", fontSize: "16px" }}>
+					A curious phenomenon identified amongst word embeddings of Word2Vec
+					and Glove, is that analogies, e.g. "man is to king as woman is to
+					...?" or "Paris is to France as Rome is to ...?", can often be solved
+					simply by adding and subtracting embeddings. Try it out now!
+				</div>
+			</div>
 			<div
 				style={{
 					display: "flex",
@@ -255,7 +306,7 @@ const Word2VecEditor = () => {
 				</Button>
 			</div>
 			{similarWords2.length === 0 && (
-				<Empty style={{ marginTop: "32px" }}></Empty>
+				<Empty style={{ marginTop: "64px" }}></Empty>
 			)}
 			{similarWords2.length !== 0 && (
 				<Table

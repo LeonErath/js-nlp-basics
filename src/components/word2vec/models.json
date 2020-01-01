@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Wikipedia German",
+        "short_name": "wiki_ger",
+        "url": "./data/wikipedia_german.json",
+        "disable": true
+    },
+    {
+        "name": "Bible (English)",
+        "short_name": "bible",
+        "url": "./data/bible.json",
+        "disable": false
+    },
+    {
+        "name": "ML5JS Big English",
+        "short_name": "ml5_big",
+        "url": "./data/wordvecs10000.json",
+        "disable": false
+    },
+    {
+        "name": "ML5JS Medium English",
+        "short_name": "ml5_medium",
+        "url": "./data/wordvecs5000.json",
+        "disable": false
+    },
+    {
+        "name": "ML5JS Small English",
+        "short_name": "ml5_small",
+        "url": "./data/wordvecs1000.json",
+        "disable": false
+    }
+]
