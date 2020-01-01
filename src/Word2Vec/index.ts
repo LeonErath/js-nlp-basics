@@ -27,7 +27,10 @@ class Word2Vec {
 		return new Promise((resolve, reject) => {
 			try {
 				fetch(path)
-					.then(r => r.json())
+					.then(r => {
+						console.log(r);
+						return r.json();
+					})
 					.catch(e => {
 						console.log(e);
 						reject(e);

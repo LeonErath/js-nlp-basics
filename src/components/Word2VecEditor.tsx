@@ -40,6 +40,7 @@ const wordVectors = word2vec();
 
 const modelURLs = new Map([
 	["wiki_ger", "./data/wikipedia_german.json"],
+	["bible", "./data/bible.json"],
 	["ml5_big", "./data/wordvecs10000.json"],
 	["ml5_medium", "./data/wordvecs5000.json"],
 	["ml5_small", "./data/wordvecs1000.json"]
@@ -168,6 +169,7 @@ const Word2VecEditor = () => {
 					<Option disabled value="wiki_ger">
 						Wikipedia German
 					</Option>
+					<Option value="bible">Bible (English)</Option>
 					<Option value="ml5_big">ML5JS Big English</Option>
 					<Option value="ml5_medium">ML5JS Medium English</Option>
 					<Option value="ml5_small">ML5JS Small English</Option>
