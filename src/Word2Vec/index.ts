@@ -28,6 +28,10 @@ class Word2Vec {
 			try {
 				fetch(path)
 					.then(r => r.json())
+					.catch(e => {
+						console.log(e);
+						reject(e);
+					})
 					.then((model: any) => {
 						Object.keys(model.vectors).forEach(word => {
 							this.model[word] = tf.tensor1d(model.vectors[word]);
@@ -36,6 +40,10 @@ class Word2Vec {
 						this.modelSize = Object.keys(this.model).length;
 						this.modelLoaded = true;
 						resolve();
+					})
+					.catch(e => {
+						console.log(e);
+						reject(e);
 					});
 			} catch (e) {
 				reject(e);
