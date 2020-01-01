@@ -219,7 +219,7 @@ const Word2VecEditor = () => {
 						}
 					}}
 					value={word}
-					style={{ marginRight: "8px" }}
+					style={{ marginRight: "8px", maxWidth: "400px" }}
 					placeholder="Type a word..."
 					onChange={e => setWord(e.target.value)}
 				/>
