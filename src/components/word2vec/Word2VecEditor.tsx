@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import word2vec from "../../Word2Vec";
 import {
-	Input,
 	Button,
-	Table,
+	Col,
 	Empty,
+	Input,
 	InputNumber,
-	Spin,
-	Select,
 	message,
-	Statistic,
 	Row,
-	Col
+	Select,
+	Spin,
+	Statistic,
+	Table,
+	Tag
 } from "antd";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { SimilarWord } from "../../models";
+import word2vec from "../../algorithms/Word2Vec";
 import models from "./models.json";
 
 const { Option } = Select;
@@ -69,6 +70,8 @@ const Word2VecEditor = () => {
 				setLoading(false);
 			})
 			.catch(e => {
+				message.error(`An error occurred.`);
+				setLoading(false);
 				console.log(e);
 			});
 	}, [modelIndex]);
@@ -154,17 +157,35 @@ const Word2VecEditor = () => {
 		setModelIndex(models.findIndex(m => m.short_name === e));
 	};
 
+	const makeGraph = () => {
+		wordVectors
+			.getCoordinates()
+			.then(solution => {
+				console.log(solution);
+			})
+			.catch(e => {
+				console.log(e);
+				message.error("An error occurred.");
+			});
+	};
+
 	return (
 		<Container>
 			<div style={{ display: "flex", width: "100%", alignItems: "center" }}>
 				<Select
 					defaultValue={models[modelIndex].short_name}
-					style={{ width: 200 }}
+					style={{ width: 220 }}
+					optionLabelProp="label"
 					onChange={handleModelChange}>
 					{models.map(m => {
 						return (
-							<Option disabled={m.disable} value={m.short_name}>
+							<Option disabled={m.disable} value={m.short_name} label={m.name}>
 								{m.name}
+								{m.short_name === "wiki_ger" && (
+									<Tag style={{ marginLeft: "8px" }} color="geekblue">
+										new
+									</Tag>
+								)}
 							</Option>
 						);
 					})}
@@ -181,17 +202,40 @@ const Word2VecEditor = () => {
 						alignItems: "center",
 						marginBottom: "64px"
 					}}>
-					<Col span={8} style={{ marginRight: "8px" }}>
+					<Col span={10} style={{ marginRight: "32px" }}>
 						<Statistic title="Model" value={models[modelIndex].name} />
 					</Col>
-					<Col span={4} style={{ marginRight: "8px" }}>
-						<Statistic title="Words/Vectors" value={wordVectors.modelSize} />
+					<Col span={3} style={{ marginRight: "64px" }}>
+						{loading && (
+							<Spin>
+								<Statistic
+									title="Words/Vectors"
+									value={wordVectors.modelSize}
+								/>
+							</Spin>
+						)}
+						{!loading && (
+							<Statistic title="Words/Vectors" value={wordVectors.modelSize} />
+						)}
+					</Col>
+					<Col span={3} style={{ marginRight: "64px" }}>
+						{loading && (
+							<Spin>
+								<Statistic
+									title="Dimensions"
+									value={wordVectors.vectorDimensions}
+								/>
+							</Spin>
+						)}
+						{!loading && (
+							<Statistic
+								title="Dimensions"
+								value={wordVectors.vectorDimensions}
+							/>
+						)}
 					</Col>
 					<Col span={4}>
-						<Statistic
-							title="Dimensions"
-							value={wordVectors.vectorDimensions}
-						/>
+						<Statistic title="Language" value={models[modelIndex].language} />
 					</Col>
 				</Row>
 				<div
@@ -316,6 +360,7 @@ const Word2VecEditor = () => {
 					size="middle"
 					style={{ marginTop: "16px" }}></Table>
 			)}
+			<Button onClick={makeGraph}>T-SNE</Button>
 		</Container>
 	);
 };
