@@ -18,8 +18,9 @@ const wordVectors = word2vec();
 
 const Word2VecEditor = () => {
 	const [word, setWord] = useState("");
+	const [secondWord, setSecondWord] = useState<string[]>([]);
 	const [similarWords, setSimilarWords] = useState<SimilarWord[]>([]);
-	const [max, setMax] = useState(10);
+	const [max, setMax] = useState(20);
 	const [graphData, setGraphData] = useState<DataPoint[]>([]);
 
 	const [mathWord1, setMathWord1] = useState("");
@@ -56,7 +57,7 @@ const Word2VecEditor = () => {
 		setMathWord1("");
 		setMathWord2("");
 		setMathWord3("");
-		setMax(10);
+		setMax(20);
 		setGraphData([]);
 		setSimilarWords([]);
 		setSimilarWords2([]);
@@ -131,13 +132,15 @@ const Word2VecEditor = () => {
 
 			<WordEmbeddings
 				word={word}
-				setWord={v => setWord(v)}
+				setWord={setWord}
+				secondWord={secondWord}
+				setSecondWord={setSecondWord}
 				max={max}
-				setMax={n => setMax(n)}
+				setMax={setMax}
 				similarWords={similarWords}
-				setSimilarWords={words => setSimilarWords(words)}
+				setSimilarWords={setSimilarWords}
 				graphData={graphData}
-				setGraphData={data => setGraphData(data)}
+				setGraphData={setGraphData}
 				loading={loading}
 				wordVectors={wordVectors}></WordEmbeddings>
 

@@ -37,8 +37,8 @@ const Graph = React.memo(({ loading, data }: Props) => {
 			{data.length !== 0 && (
 				<ScatterChart
 					width={800}
-					height={300}
-					margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
+					height={360}
+					margin={{ top: 36, right: 20, bottom: 10, left: 10 }}>
 					<CartesianGrid strokeDasharray="3 3" />
 					<YAxis
 						dataKey="y"

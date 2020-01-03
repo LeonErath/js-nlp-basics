@@ -1,4 +1,13 @@
-import { Button, Empty, Input, InputNumber, message, Table, Radio } from "antd";
+import {
+	Button,
+	Empty,
+	Input,
+	InputNumber,
+	message,
+	Table,
+	Radio,
+	Select
+} from "antd";
 import React, { useState } from "react";
 import { SimilarWord } from "../../models";
 import Graph from "./Graph";
@@ -9,6 +18,8 @@ interface Props {
 	wordVectors: any;
 	word: string;
 	setWord: (v: string) => void;
+	secondWord: string[];
+	setSecondWord: (v: string[]) => void;
 	max: number;
 	setMax: (v: number) => void;
 	similarWords: SimilarWord[];
@@ -33,6 +44,9 @@ const WordEmbeddings = ({
 	wordVectors,
 	word,
 	setWord,
+	secondWord,
+	setSecondWord,
+
 	max,
 	setMax,
 	similarWords,
@@ -55,6 +69,20 @@ const WordEmbeddings = ({
 		} else {
 			getNearestVectors(word);
 			makeGraph(word);
+		}
+	};
+
+	const addWord = () => {
+		if (secondWord.length !== 0) {
+			wordVectors
+				.getCoordinates([word, ...secondWord], epislon, perplexity, max)
+				.then((solution: DataPoint[]) => {
+					setGraphData(solution);
+				})
+				.catch((e: any) => {
+					console.log(e);
+					message.error("An error occurred.");
+				});
 		}
 	};
 
@@ -148,6 +176,21 @@ const WordEmbeddings = ({
 					<Radio.Button value="b">Table</Radio.Button>
 				</Radio.Group>
 			</div>
+			{showGraph && word.length !== 0 && graphData.length !== 0 && (
+				<div style={{ marginTop: "16px" }}>
+					<Select
+						defaultValue={secondWord}
+						mode="tags"
+						notFoundContent={null}
+						style={{ maxWidth: "400px", width: "100%", marginRight: "8px" }}
+						placeholder="Tags Mode"
+						onChange={(v: string[]) => setSecondWord(v)}></Select>
+
+					<Button onClick={addWord} disabled={loading}>
+						Apply
+					</Button>
+				</div>
+			)}
 			{showGraph && (
 				<div style={{ marginTop: "16px" }}>
 					<span style={{ marginRight: "8px" }}>Epsilon:</span>
@@ -155,7 +198,7 @@ const WordEmbeddings = ({
 						disabled={loading}
 						min={1}
 						max={500}
-						defaultValue={10}
+						defaultValue={epislon}
 						onChange={(e: number | undefined) => {
 							if (e) setEpsilon(e);
 						}}
@@ -166,7 +209,7 @@ const WordEmbeddings = ({
 						disabled={loading}
 						min={1}
 						max={500}
-						defaultValue={10}
+						defaultValue={perplexity}
 						onChange={(e: number | undefined) => {
 							if (e) setPerplexity(e);
 						}}
