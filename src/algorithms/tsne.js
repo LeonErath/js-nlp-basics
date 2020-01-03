@@ -1,8 +1,9 @@
-// create main global object
-// eslint-disable-next-line no-use-before-define
+/* eslint-disable */
 var tsnejs = tsnejs || { REVISION: "ALPHA" };
 
 (function(global) {
+	"use strict";
+
 	// utility function
 	var assert = function(condition, message) {
 		if (!condition) {
@@ -30,7 +31,7 @@ var tsnejs = tsnejs || { REVISION: "ALPHA" };
 		var u = 2 * Math.random() - 1;
 		var v = 2 * Math.random() - 1;
 		var r = u * u + v * v;
-		if (r === 0 || r > 1) return gaussRandom();
+		if (r == 0 || r > 1) return gaussRandom();
 		var c = Math.sqrt((-2 * Math.log(r)) / r);
 		v_val = v * c; // cache this for next function call for efficiency
 		return_v = true;
@@ -128,8 +129,8 @@ var tsnejs = tsnejs || { REVISION: "ALPHA" };
 
 				// compute entropy and kernel row with beta precision
 				var psum = 0.0;
-				for (let j = 0; j < N; j++) {
-					let pj = Math.exp(-D[i * N + j] * beta);
+				for (var j = 0; j < N; j++) {
+					var pj = Math.exp(-D[i * N + j] * beta);
 					if (i === j) {
 						pj = 0;
 					} // we dont care about diagonals
@@ -138,10 +139,11 @@ var tsnejs = tsnejs || { REVISION: "ALPHA" };
 				}
 				// normalize p and compute entropy
 				var Hhere = 0.0;
-				for (let j = 0; j < N; j++) {
-					let pj = 0;
-					if (!psum === 0) {
-						pj = prow[j] / psum;
+				for (var j = 0; j < N; j++) {
+					if (psum == 0) {
+						var pj = 0;
+					} else {
+						var pj = prow[j] / psum;
 					}
 					prow[j] = pj;
 					if (pj > 1e-7) Hhere -= pj * Math.log(pj);
@@ -187,8 +189,8 @@ var tsnejs = tsnejs || { REVISION: "ALPHA" };
 		// symmetrize P and normalize it to sum to 1 over all ij
 		var Pout = zeros(N * N);
 		var N2 = N * 2;
-		for (let i = 0; i < N; i++) {
-			for (let j = 0; j < N; j++) {
+		for (var i = 0; i < N; i++) {
+			for (var j = 0; j < N; j++) {
 				Pout[i * N + j] = Math.max((P[i * N + j] + P[j * N + i]) / N2, 1e-100);
 			}
 		}
@@ -202,7 +204,6 @@ var tsnejs = tsnejs || { REVISION: "ALPHA" };
 	}
 
 	var tSNE = function(opt) {
-		// eslint-disable-next-line no-redeclare
 		var opt = opt || {};
 		this.perplexity = getopt(opt, "perplexity", 30); // effective number of nearest neighbors
 		this.dim = getopt(opt, "dim", 2); // by default 2-D tSNE
@@ -294,8 +295,8 @@ var tsnejs = tsnejs || { REVISION: "ALPHA" };
 			}
 
 			// reproject Y to be zero mean
-			for (let i = 0; i < N; i++) {
-				for (let d = 0; d < this.dim; d++) {
+			for (var i = 0; i < N; i++) {
+				for (var d = 0; d < this.dim; d++) {
 					this.Y[i][d] -= ymean[d] / N;
 				}
 			}
@@ -309,7 +310,7 @@ var tsnejs = tsnejs || { REVISION: "ALPHA" };
 			var N = this.N;
 
 			var cg = this.costGrad(this.Y); // evaluate gradient
-			// var cost = cg.cost;
+			var cost = cg.cost;
 			var grad = cg.grad;
 
 			var e = 1e-5;
@@ -373,16 +374,16 @@ var tsnejs = tsnejs || { REVISION: "ALPHA" };
 
 			var cost = 0.0;
 			var grad = [];
-			for (let i = 0; i < N; i++) {
+			for (var i = 0; i < N; i++) {
 				var gsum = new Array(dim); // init grad for point i
-				for (let d = 0; d < dim; d++) {
+				for (var d = 0; d < dim; d++) {
 					gsum[d] = 0.0;
 				}
-				for (let j = 0; j < N; j++) {
+				for (var j = 0; j < N; j++) {
 					cost += -P[i * N + j] * Math.log(Q[i * N + j]); // accumulate cost (the non-constant portion at least...)
 					var premult =
 						4 * (pmul * P[i * N + j] - Q[i * N + j]) * Qu[i * N + j];
-					for (let d = 0; d < dim; d++) {
+					for (var d = 0; d < dim; d++) {
 						gsum[d] += premult * (Y[i][d] - Y[j][d]);
 					}
 				}
@@ -398,6 +399,7 @@ var tsnejs = tsnejs || { REVISION: "ALPHA" };
 
 // export the library to window, or to module in nodejs
 (function(lib) {
+	"use strict";
 	if (typeof module === "undefined" || typeof module.exports === "undefined") {
 		window.tsnejs = lib; // in ordinary browser attach library to window
 	} else {

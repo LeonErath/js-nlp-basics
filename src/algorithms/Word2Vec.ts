@@ -8,9 +8,9 @@ Word2Vec
 */
 
 import * as tf from "@tensorflow/tfjs";
+import { DataPoint } from "../components/word2vec/models";
+import { OperationType, SimilarWord } from "../models";
 import * as tsne from "./tsne";
-
-import { SimilarWord, OperationType } from "../models";
 
 class Word2Vec {
 	model: any = {};
@@ -31,7 +31,6 @@ class Word2Vec {
 			try {
 				fetch(path)
 					.then(r => {
-						console.log(r);
 						return r.json();
 					})
 					.catch(e => {
@@ -60,36 +59,65 @@ class Word2Vec {
 		});
 	}
 
-	getCoordinates = async () => {
+	getCoordinates = async (
+		inputs: string[],
+		epsilon: number,
+		perplexity: number,
+		amount: number
+	): Promise<DataPoint[]> => {
 		return new Promise((resolve, reject) => {
 			try {
 				var opt = {
-					epsilon: 10,
-					perplexity: 30,
+					epsilon,
+					perplexity,
 					dim: 2
 				};
 
-				var test = new tsne.tSNE(opt); // create a tSNE instance
+				const TSNE = new tsne.tSNE(opt); // create a tSNE instance
+				let names: Array<string> = [];
+				let inputForName: Array<string> = [];
+
 				const vectors = tf.tidy(() => {
-					let vectors = [];
+					let vectors: any = [];
+					inputs.forEach(input => {
+						const vector = this.model[input];
 
-					const wordArray = Object.keys(this.model);
-					for (let i = 0; i < wordArray.length; i++) {
-						const vector = this.model[wordArray[i]].arraySync();
-						vectors.push(vector);
-					}
+						if (vector) {
+							const result = Word2Vec.nearest(
+								this.model,
+								vector,
+								1,
+								amount + 1
+							);
 
-					return vectors.slice(1, 10);
+							const tmpResult = result.map((word: SimilarWord) => {
+								names = [...names, word.word];
+								inputForName = [...inputForName, input];
+								return this.model[word.word].arraySync();
+							});
+							vectors = [...vectors, ...tmpResult];
+						}
+					});
+					return vectors;
 				});
 
-				test.initDataRaw(vectors);
+				TSNE.initDataRaw(vectors);
 
 				for (var k = 0; k < 500; k++) {
-					test.step();
+					TSNE.step();
 				}
 
-				var Y = test.getSolution();
-				resolve(Y);
+				var Y = TSNE.getSolution();
+
+				const data: DataPoint[] = Y.map((d: Array<number>, index: number) => ({
+					x: d[0],
+					y: d[1],
+					z: d[2],
+					name: names[index],
+					input: inputForName[index]
+				}));
+
+				resolve(data);
 			} catch (e) {
 				reject(e);
 			}

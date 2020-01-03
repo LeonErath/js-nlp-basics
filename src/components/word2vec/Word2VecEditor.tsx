@@ -1,50 +1,27 @@
-import {
-	Button,
-	Col,
-	Empty,
-	Input,
-	InputNumber,
-	message,
-	Row,
-	Select,
-	Spin,
-	Statistic,
-	Table,
-	Tag
-} from "antd";
+import { message, Select, Spin, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { SimilarWord } from "../../models";
 import word2vec from "../../algorithms/Word2Vec";
-import models from "./models.json";
+import { SimilarWord } from "../../models";
+import ModelInfo from "./ModelInfo";
+import { models, DataPoint } from "./models";
+import WordAlgebra from "./WordAlgebra";
+import WordEmbeddings from "./WordEmbeddings";
 
 const { Option } = Select;
 
-const columns = [
-	{
-		title: "Word",
-		dataIndex: "word"
-	},
-	{
-		title: "Distance",
-		dataIndex: "distance"
-	}
-];
-
 const Container = styled.div`
 	margin-top: 16px;
-`;
-
-const Symbol = styled.div`
-	margin: 8px;
-	font-size: 20px;
-	font-weight: bold;
 `;
 
 const wordVectors = word2vec();
 
 const Word2VecEditor = () => {
 	const [word, setWord] = useState("");
+	const [similarWords, setSimilarWords] = useState<SimilarWord[]>([]);
+	const [max, setMax] = useState(10);
+	const [graphData, setGraphData] = useState<DataPoint[]>([]);
+
 	const [mathWord1, setMathWord1] = useState("");
 	const [mathWord2, setMathWord2] = useState("");
 	const [mathWord3, setMathWord3] = useState("");
@@ -54,8 +31,6 @@ const Word2VecEditor = () => {
 	);
 	const [loading, setLoading] = useState(false);
 
-	const [max, setMax] = useState(10);
-	const [similarWords, setSimilarWords] = useState<SimilarWord[]>([]);
 	const [similarWords2, setSimilarWords2] = useState<SimilarWord[]>([]);
 
 	useEffect(() => {
@@ -82,6 +57,7 @@ const Word2VecEditor = () => {
 		setMathWord2("");
 		setMathWord3("");
 		setMax(10);
+		setGraphData([]);
 		setSimilarWords([]);
 		setSimilarWords2([]);
 	};
@@ -120,53 +96,8 @@ const Word2VecEditor = () => {
 		}
 	};
 
-	const getNearestVectors = async () => {
-		if (word.length === 0) {
-			const randomWord = await wordVectors.getRandomWord();
-
-			if (randomWord) {
-				setWord(randomWord);
-
-				wordVectors
-					.nearest(randomWord, max)
-					.then((result: SimilarWord[]) => {
-						setSimilarWords(result);
-					})
-					.catch((err: any) => {
-						message.error("An error occurred.");
-						console.log(err);
-					});
-			}
-		} else {
-			wordVectors
-				.nearest(word, max)
-				.then((result: SimilarWord[]) => {
-					setSimilarWords(result);
-					if (result.length === 0) {
-						message.info(`No results were found.`);
-					}
-				})
-				.catch((err: any) => {
-					message.info(`No results were found.`);
-					console.log(err);
-				});
-		}
-	};
-
 	const handleModelChange = (e: any) => {
 		setModelIndex(models.findIndex(m => m.short_name === e));
-	};
-
-	const makeGraph = () => {
-		wordVectors
-			.getCoordinates()
-			.then(solution => {
-				console.log(solution);
-			})
-			.catch(e => {
-				console.log(e);
-				message.error("An error occurred.");
-			});
 	};
 
 	return (
@@ -193,174 +124,33 @@ const Word2VecEditor = () => {
 				{loading && <Spin style={{ marginLeft: "8px" }}></Spin>}
 			</div>
 
-			<div style={{ marginTop: "32px", marginBottom: "32px" }}>
-				<Row
-					gutter={16}
-					style={{
-						display: "flex",
-						width: "100%",
-						alignItems: "center",
-						marginBottom: "64px"
-					}}>
-					<Col span={10} style={{ marginRight: "32px" }}>
-						<Statistic title="Model" value={models[modelIndex].name} />
-					</Col>
-					<Col span={3} style={{ marginRight: "64px" }}>
-						{loading && (
-							<Spin>
-								<Statistic
-									title="Words/Vectors"
-									value={wordVectors.modelSize}
-								/>
-							</Spin>
-						)}
-						{!loading && (
-							<Statistic title="Words/Vectors" value={wordVectors.modelSize} />
-						)}
-					</Col>
-					<Col span={3} style={{ marginRight: "64px" }}>
-						{loading && (
-							<Spin>
-								<Statistic
-									title="Dimensions"
-									value={wordVectors.vectorDimensions}
-								/>
-							</Spin>
-						)}
-						{!loading && (
-							<Statistic
-								title="Dimensions"
-								value={wordVectors.vectorDimensions}
-							/>
-						)}
-					</Col>
-					<Col span={4}>
-						<Statistic title="Language" value={models[modelIndex].language} />
-					</Col>
-				</Row>
-				<div
-					style={{
-						display: "flex",
-						width: "80%",
-						fontSize: "22px",
-						marginBottom: "16px"
-					}}>
-					Word Embeddings
-				</div>
-				<div style={{ display: "flex", width: "80%", fontSize: "16px" }}>
-					The embeddings you have trained will now be displayed. You can search
-					for words to find their closest neighbors. For example, try searching
-					for "beautiful". You may see neighbors like "wonderful".
-				</div>
-			</div>
+			<ModelInfo
+				loading={loading}
+				model={models[modelIndex]}
+				wordVectors={wordVectors}></ModelInfo>
 
-			<div style={{ display: "flex", width: "100%", marginTop: "16px" }}>
-				<Input
-					disabled={loading}
-					onKeyDown={e => {
-						if (e.key === "Enter") {
-							getNearestVectors();
-						}
-					}}
-					value={word}
-					style={{ marginRight: "8px", maxWidth: "400px" }}
-					placeholder="Type a word..."
-					onChange={e => setWord(e.target.value)}
-				/>
-				<InputNumber
-					disabled={loading}
-					min={1}
-					max={50}
-					defaultValue={max}
-					onChange={e => {
-						if (e) {
-							setMax(e);
-						}
-					}}
-					style={{ marginRight: "8px" }}
-				/>
-				<Button onClick={getNearestVectors} disabled={loading}>
-					Calculate
-				</Button>
-			</div>
-			{similarWords.length === 0 && (
-				<Empty style={{ marginTop: "64px" }}></Empty>
-			)}
+			<WordEmbeddings
+				word={word}
+				setWord={v => setWord(v)}
+				max={max}
+				setMax={n => setMax(n)}
+				similarWords={similarWords}
+				setSimilarWords={words => setSimilarWords(words)}
+				graphData={graphData}
+				setGraphData={data => setGraphData(data)}
+				loading={loading}
+				wordVectors={wordVectors}></WordEmbeddings>
 
-			{similarWords.length !== 0 && (
-				<Table
-					dataSource={similarWords}
-					columns={columns}
-					bordered
-					size="middle"
-					style={{ marginTop: "16px" }}></Table>
-			)}
-			<div style={{ marginTop: "64px", marginBottom: "32px" }}>
-				<div
-					style={{
-						display: "flex",
-						width: "80%",
-						fontSize: "22px",
-						marginBottom: "16px"
-					}}>
-					Word Algebra
-				</div>
-				<div style={{ display: "flex", width: "80%", fontSize: "16px" }}>
-					A curious phenomenon identified amongst word embeddings of Word2Vec
-					and Glove, is that analogies, e.g. "man is to king as woman is to
-					...?" or "Paris is to France as Rome is to ...?", can often be solved
-					simply by adding and subtracting embeddings. Try it out now!
-				</div>
-			</div>
-			<div
-				style={{
-					display: "flex",
-					width: "100%",
-					marginTop: "16px",
-					alignItems: "center"
-				}}>
-				<Input
-					disabled={loading}
-					value={mathWord1}
-					style={{ width: "200px" }}
-					placeholder="Germany"
-					onChange={e => setMathWord1(e.target.value)}
-				/>
-
-				<Symbol>+</Symbol>
-				<Symbol>(</Symbol>
-				<Input
-					disabled={loading}
-					value={mathWord2}
-					style={{ width: "200px" }}
-					placeholder="Paris"
-					onChange={e => setMathWord2(e.target.value)}
-				/>
-				<Symbol>-</Symbol>
-				<Input
-					disabled={loading}
-					value={mathWord3}
-					style={{ marginRight: "8px", width: "200px" }}
-					placeholder="France"
-					onChange={e => setMathWord3(e.target.value)}
-				/>
-				<Symbol>)</Symbol>
-				<Button disabled={loading} onClick={calculate}>
-					Calculate
-				</Button>
-			</div>
-			{similarWords2.length === 0 && (
-				<Empty style={{ marginTop: "64px" }}></Empty>
-			)}
-			{similarWords2.length !== 0 && (
-				<Table
-					dataSource={similarWords2}
-					columns={columns}
-					bordered
-					size="middle"
-					style={{ marginTop: "16px" }}></Table>
-			)}
-			<Button onClick={makeGraph}>T-SNE</Button>
+			<WordAlgebra
+				loading={loading}
+				similarWords2={similarWords2}
+				mathWord1={mathWord1}
+				mathWord2={mathWord2}
+				mathWord3={mathWord3}
+				calculate={calculate}
+				onWord1Change={e => setMathWord1(e)}
+				onWord2Change={e => setMathWord2(e)}
+				onWord3Change={e => setMathWord3(e)}></WordAlgebra>
 		</Container>
 	);
 };
