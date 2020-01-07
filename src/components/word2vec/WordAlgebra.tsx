@@ -15,6 +15,15 @@ interface Props {
 	similarWords2: SimilarWord[];
 }
 
+const Text = styled.div`
+	display: flex;
+	width: 80%;
+	font-size: "16px";
+	@media (max-width: 768px) {
+		width: 100%;
+	}
+`;
+
 const Symbol = styled.div`
 	margin: 8px;
 	font-size: 20px;
@@ -55,24 +64,25 @@ const WordAlgebra = ({
 					}}>
 					Word Algebra
 				</div>
-				<div style={{ display: "flex", width: "80%", fontSize: "16px" }}>
+				<Text>
 					A curious phenomenon identified amongst word embeddings of Word2Vec
 					and Glove, is that analogies, e.g. "man is to king as woman is to
 					...?" or "Paris is to France as Rome is to ...?", can often be solved
 					simply by adding and subtracting embeddings. Try it out now!
-				</div>
+				</Text>
 			</div>
 			<div
 				style={{
 					display: "flex",
 					width: "100%",
 					marginTop: "16px",
-					alignItems: "center"
+					alignItems: "center",
+					flexWrap: "wrap"
 				}}>
 				<Input
 					disabled={loading}
 					value={mathWord1}
-					style={{ width: "200px" }}
+					style={{ width: "100%", maxWidth: "200px", minWidth: "100px" }}
 					placeholder="Germany"
 					onChange={e => onWord1Change(e.target.value)}
 				/>
@@ -82,7 +92,7 @@ const WordAlgebra = ({
 				<Input
 					disabled={loading}
 					value={mathWord2}
-					style={{ width: "200px" }}
+					style={{ width: "100%", maxWidth: "200px", minWidth: "100px" }}
 					placeholder="Paris"
 					onChange={e => onWord2Change(e.target.value)}
 				/>
@@ -90,7 +100,12 @@ const WordAlgebra = ({
 				<Input
 					disabled={loading}
 					value={mathWord3}
-					style={{ marginRight: "8px", width: "200px" }}
+					style={{
+						marginRight: "8px",
+						width: "100%",
+						maxWidth: "200px",
+						minWidth: "100px"
+					}}
 					placeholder="France"
 					onChange={e => onWord3Change(e.target.value)}
 				/>

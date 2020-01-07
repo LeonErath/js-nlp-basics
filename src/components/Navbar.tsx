@@ -7,15 +7,23 @@ const MenuBar = styled.div`
 	height: 64px;
 	background: white;
 	display: flex;
+	flex-wrap: wrap;
 	width: 100%;
 	align-items: center;
 	justify-content: space-between;
 	padding-right: 32px;
 	padding-left: 32px;
 	box-shadow: 0 2px 8px #f0f1f2;
+	@media (max-width: 768px) {
+		align-items: center;
+		justify-content: center;
+	}
 `;
 
 const Description = styled.span`
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 	font-size: 22px;
 	font-weight: bold;
 	padding: 0px 16px;
@@ -28,9 +36,13 @@ const MenuRight = styled.div`
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+	@media (max-width: 768px) {
+		visibility: collapse;
+	}
 `;
 
 const MenuLeft = styled.div`
+	height: 100%;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;

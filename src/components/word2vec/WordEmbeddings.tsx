@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { SimilarWord } from "../../models";
 import Graph from "./Graph";
 import { DataPoint } from "./models";
+import styled from "styled-components";
 
 interface Props {
 	loading: boolean;
@@ -38,6 +39,15 @@ const columns = [
 		dataIndex: "distance"
 	}
 ];
+
+const Text = styled.div`
+	display: flex;
+	width: 80%;
+	font-size: "16px";
+	@media (max-width: 768px) {
+		width: 100%;
+	}
+`;
 
 const WordEmbeddings = ({
 	loading,
@@ -130,13 +140,18 @@ const WordEmbeddings = ({
 					}}>
 					Word Embeddings
 				</div>
-				<div style={{ display: "flex", width: "80%", fontSize: "16px" }}>
+				<Text>
 					The embeddings you have trained will now be displayed. You can search
 					for words to find their closest neighbors. For example, try searching
 					for "beautiful". You may see neighbors like "wonderful".
-				</div>
+				</Text>
 			</div>
-			<div style={{ display: "flex", width: "100%", marginTop: "16px" }}>
+			<div
+				style={{
+					display: "flex",
+					width: "100%",
+					flexWrap: "wrap"
+				}}>
 				<Input
 					disabled={loading}
 					onKeyDown={e => {
@@ -145,7 +160,12 @@ const WordEmbeddings = ({
 						}
 					}}
 					value={word}
-					style={{ marginRight: "8px", maxWidth: "400px" }}
+					style={{
+						marginRight: "8px",
+						marginTop: "16px",
+						maxWidth: "400px",
+						minWidth: "200px"
+					}}
 					placeholder="Type a word..."
 					onChange={e => setWord(e.target.value)}
 				/>
@@ -159,15 +179,16 @@ const WordEmbeddings = ({
 							setMax(e);
 						}
 					}}
-					style={{ marginRight: "8px" }}
+					style={{ marginRight: "8px", marginTop: "16px" }}
 				/>
 				<Button
 					onClick={handleEmbeddings}
 					disabled={loading}
-					style={{ marginRight: "8px" }}>
+					style={{ marginRight: "8px", marginTop: "16px" }}>
 					Calculate
 				</Button>
 				<Radio.Group
+					style={{ marginTop: "16px" }}
 					onChange={() => {
 						setShowGraph(!showGraph);
 					}}
@@ -182,11 +203,19 @@ const WordEmbeddings = ({
 						defaultValue={secondWord}
 						mode="tags"
 						notFoundContent={null}
-						style={{ maxWidth: "400px", width: "100%", marginRight: "8px" }}
-						placeholder="Tags Mode"
+						style={{
+							maxWidth: "400px",
+							marginTop: "16px",
+							width: "100%",
+							marginRight: "8px"
+						}}
+						placeholder="Add more words.."
 						onChange={(v: string[]) => setSecondWord(v)}></Select>
 
-					<Button onClick={addWord} disabled={loading}>
+					<Button
+						onClick={addWord}
+						disabled={loading}
+						style={{ marginTop: "16px" }}>
 						Apply
 					</Button>
 				</div>
@@ -202,7 +231,7 @@ const WordEmbeddings = ({
 						onChange={(e: number | undefined) => {
 							if (e) setEpsilon(e);
 						}}
-						style={{ marginRight: "8px" }}
+						style={{ marginRight: "8px", marginTop: "16px" }}
 					/>
 					<span style={{ marginRight: "8px" }}>Vebosity:</span>
 					<InputNumber
@@ -213,7 +242,7 @@ const WordEmbeddings = ({
 						onChange={(e: number | undefined) => {
 							if (e) setPerplexity(e);
 						}}
-						style={{ marginRight: "8px" }}
+						style={{ marginRight: "8px", marginTop: "16px" }}
 					/>
 				</div>
 			)}

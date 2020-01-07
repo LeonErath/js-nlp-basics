@@ -7,7 +7,8 @@ import {
 	ScatterChart,
 	Tooltip,
 	XAxis,
-	YAxis
+	YAxis,
+	ResponsiveContainer
 } from "recharts";
 import { DataPoint } from "./models";
 
@@ -35,41 +36,40 @@ const Graph = React.memo(({ loading, data }: Props) => {
 	return (
 		<div>
 			{data.length !== 0 && (
-				<ScatterChart
-					width={800}
-					height={360}
-					margin={{ top: 36, right: 20, bottom: 10, left: 10 }}>
-					<CartesianGrid strokeDasharray="3 3" />
-					<YAxis
-						dataKey="y"
-						name="y"
-						type="number"
-						tickFormatter={tick => Math.ceil(tick)}
-					/>
-					<XAxis
-						dataKey="x"
-						name="x"
-						type="number"
-						tickFormatter={tick => Math.ceil(tick)}
-					/>
+				<ResponsiveContainer height={360} width={"100%"}>
+					<ScatterChart margin={{ top: 36, right: 20, bottom: 10, left: 10 }}>
+						<CartesianGrid strokeDasharray="3 3" />
+						<YAxis
+							dataKey="y"
+							name="y"
+							type="number"
+							tickFormatter={tick => Math.ceil(tick)}
+						/>
+						<XAxis
+							dataKey="x"
+							name="x"
+							type="number"
+							tickFormatter={tick => Math.ceil(tick)}
+						/>
 
-					<Tooltip content={(props: any) => renderTooltip(props)} />
-					<Legend />
-					{uniqueInputs.map(input => {
-						return (
-							<Scatter
-								name={input}
-								data={data.filter(d => d.input === input)}
-								fill={
-									"#" +
-									Math.random()
-										.toString(16)
-										.slice(2, 8)
-								}
-							/>
-						);
-					})}
-				</ScatterChart>
+						<Tooltip content={(props: any) => renderTooltip(props)} />
+						<Legend />
+						{uniqueInputs.map(input => {
+							return (
+								<Scatter
+									name={input}
+									data={data.filter(d => d.input === input)}
+									fill={
+										"#" +
+										Math.random()
+											.toString(16)
+											.slice(2, 8)
+									}
+								/>
+							);
+						})}
+					</ScatterChart>
+				</ResponsiveContainer>
 			)}
 			{data.length === 0 && <Empty style={{ marginTop: "64px" }}></Empty>}
 		</div>

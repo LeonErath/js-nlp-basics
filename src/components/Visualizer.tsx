@@ -11,6 +11,9 @@ const { Option } = Select;
 const Container = styled.div`
 	margin: 64px;
 	max-width: 1000px;
+	@media (max-width: 768px) {
+		margin: 32px;
+	}
 `;
 
 const Visualizer = () => {
