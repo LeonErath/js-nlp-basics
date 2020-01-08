@@ -1,7 +1,6 @@
 {
 	"compilerOptions": {
 		"target": "es5",
-
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"downlevelIteration": true,
 		"allowJs": true,
@@ -15,7 +14,8 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
-		"jsx": "react"
+		"jsx": "preserve"
 	},
-	"include": ["src", "types"]
+	"include": ["pages", "types", "components"],
+	"exclude": ["node_modules"]
 }

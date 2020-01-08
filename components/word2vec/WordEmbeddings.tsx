@@ -9,7 +9,7 @@ import {
 	Select
 } from "antd";
 import React, { useState } from "react";
-import { SimilarWord } from "../../models";
+import { SimilarWord } from "../models";
 import Graph from "./Graph";
 import { DataPoint } from "./models";
 import styled from "styled-components";

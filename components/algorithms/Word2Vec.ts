@@ -8,7 +8,7 @@ Word2Vec
 */
 
 import * as tf from "@tensorflow/tfjs";
-import { DataPoint } from "../components/word2vec/models";
+import { DataPoint } from "../word2vec/models";
 import { OperationType, SimilarWord } from "../models";
 import * as tsne from "./tsne";
 

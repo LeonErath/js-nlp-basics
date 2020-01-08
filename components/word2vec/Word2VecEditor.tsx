@@ -1,8 +1,8 @@
 import { message, Select, Spin, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import word2vec from "../../algorithms/Word2Vec";
-import { SimilarWord } from "../../models";
+import word2vec from "../algorithms/Word2Vec";
+import { SimilarWord } from "../models";
 import ModelInfo from "./ModelInfo";
 import { models, DataPoint } from "./models";
 import WordAlgebra from "./WordAlgebra";

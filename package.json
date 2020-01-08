@@ -1,7 +1,6 @@
 {
   "name": "verify",
   "version": "0.1.0",
-  "homepage": "http://leonerath.github.io/js-nlp-basics",
   "private": true,
   "dependencies": {
     "@tensorflow/tfjs": "^1.5.1",
@@ -14,9 +13,11 @@
     "@types/react-dom": "^16.9.0",
     "@types/recharts": "^1.8.4",
     "@types/styled-components": "^4.4.1",
+    "@zeit/next-css": "^1.0.1",
     "antd": "^3.26.4",
     "compromise": "^12.2.1",
     "gh-pages": "^2.1.1",
+    "next": "^9.1.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
@@ -27,12 +28,10 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc"
   },
   "eslintConfig": {
     "extends": "react-app"
