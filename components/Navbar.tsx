@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import Link from "next/link";
 import { Button, Menu, Icon } from "antd";
+import Logo from "./Logo";
+import { A } from "./styles";
 const { SubMenu } = Menu;
 
 const MenuBar = styled.div`
@@ -21,8 +24,7 @@ const MenuBar = styled.div`
 `;
 
 const Description = styled.span`
-	text-overflow: ellipsis;
-	overflow: hidden;
+	font-weight: 300;
 	white-space: nowrap;
 	font-size: 22px;
 	font-weight: bold;
@@ -83,8 +85,11 @@ const Navbar = () => {
 	return (
 		<MenuBar>
 			<MenuLeft>
-				<img src="./logo512.png" height="40px" alt="Logo"></img>
-				<Description>NLP Basics</Description>
+				<Link href="/">
+					<a>
+						<Logo></Logo>
+					</a>
+				</Link>
 			</MenuLeft>
 			<MenuRight>
 				<MenuDiv selectedKeys={["mail"]} mode="horizontal" className="nav">
@@ -102,7 +107,11 @@ const Navbar = () => {
 						<Menu.Item key="chapter:5">Use Cases</Menu.Item>
 					</SubMenu>
 				</MenuDiv>
-				<Button>Playground</Button>
+				<Button>
+					<Link href="/playground">
+						<a>Playground</a>
+					</Link>
+				</Button>
 			</MenuRight>
 		</MenuBar>
 	);
