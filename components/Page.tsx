@@ -1,7 +1,7 @@
 import "antd/dist/antd.css";
 import React from "react";
 import Navbar from "../components/Navbar";
-import "./page.css";
+import "./Page.css";
 
 const Page = (props: any) => {
 	return (
