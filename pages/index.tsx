@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import "./index.css";
 import "antd/dist/antd.css";
 
-const App = () => {
+const Home = () => {
 	return (
 		<div>
 			<Navbar></Navbar>
@@ -13,4 +13,4 @@ const App = () => {
 	);
 };
 
-export default App;
+export default Home;
