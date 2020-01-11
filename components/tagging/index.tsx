@@ -3,7 +3,7 @@ import { createEditor, Node, Range } from "slate";
 import { Editable, RenderLeafProps, Slate, withReact } from "slate-react";
 import styled from "styled-components";
 import Toolbar from "./Toolbar";
-import { TagColors, Tag } from "../styles/Tag";
+import { TagColors, Tag } from "../../styles/Tag";
 import HoveringMenu from "./HoveringMenu";
 
 const Container = styled.div``;

@@ -1,11 +1,11 @@
+import { Button, Col, Row, Spin, Statistic } from "antd";
 import React from "react";
-import { Row, Col, Statistic, Spin, Button } from "antd";
-import { Model } from "./models";
 import styled from "styled-components";
+import { Word2VecModel } from "../../interfaces";
 
 interface Props {
 	loading: boolean;
-	model: Model;
+	model: Word2VecModel;
 	wordVectors: any;
 }
 

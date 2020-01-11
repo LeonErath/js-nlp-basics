@@ -8,9 +8,10 @@ Word2Vec
 */
 
 import * as tf from "@tensorflow/tfjs";
-import { DataPoint } from "../word2vec/models";
-import { OperationType, SimilarWord } from "../models";
+
+import { OperationType, SimilarWord } from "../../interfaces";
 import * as tsne from "./tsne";
+import { DataPoint } from "../../interfaces";
 
 class Word2Vec {
 	model: any = {};
@@ -26,33 +27,19 @@ class Word2Vec {
 		this.modelLoaded = false;
 	}
 
-	loadModel(path: string) {
+	loadModel(model: any) {
 		return new Promise((resolve, reject) => {
 			try {
-				fetch(path)
-					.then(r => {
-						return r.json();
-					})
-					.catch(e => {
-						console.log(e);
-						reject(e);
-					})
-					.then((model: any) => {
-						Object.keys(model.vectors).forEach(word => {
-							this.model[word] = tf.tensor1d(model.vectors[word]);
-						});
+				Object.keys(model.vectors).forEach(word => {
+					this.model[word] = tf.tensor1d(model.vectors[word]);
+				});
 
-						this.vectorDimensions =
-							model.vectors[Object.keys(model.vectors)[0]].length;
+				this.vectorDimensions =
+					model.vectors[Object.keys(model.vectors)[0]].length;
 
-						this.modelSize = Object.keys(this.model).length;
-						this.modelLoaded = true;
-						resolve();
-					})
-					.catch(e => {
-						console.log(e);
-						reject(e);
-					});
+				this.modelSize = Object.keys(this.model).length;
+				this.modelLoaded = true;
+				resolve();
 			} catch (e) {
 				reject(e);
 			}
