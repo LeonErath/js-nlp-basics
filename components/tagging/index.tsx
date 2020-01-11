@@ -18,8 +18,6 @@ const EditorDiv = styled.div`
 
 const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
 	if (leaf.highlight) {
-		console.log(leaf.tag, TagColors.get(leaf.tag));
-
 		return (
 			<Tag {...attributes} background={TagColors.get(leaf.tag)}>
 				{children}
