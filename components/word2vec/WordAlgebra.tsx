@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Button, Empty, Table } from "antd";
 import styled from "styled-components";
-import { SimilarWord } from "../models";
+import { SimilarWord } from "../../interfaces";
 
 interface Props {
 	loading: boolean;

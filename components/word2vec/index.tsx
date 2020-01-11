@@ -1,12 +1,13 @@
 import { message, Select, Spin, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import word2vec from "../algorithms/Word2Vec";
-import { SimilarWord } from "../models";
+import word2vec from "./Word2Vec";
+import { SimilarWord } from "../../interfaces";
 import ModelInfo from "./ModelInfo";
-import { models, DataPoint } from "./models";
 import WordAlgebra from "./WordAlgebra";
 import WordEmbeddings from "./WordEmbeddings";
+import { DataPoint } from "../../interfaces";
+import { CenterContainer } from "../../styles/CenterContainer";
 
 const { Option } = Select;
 
@@ -26,31 +27,53 @@ const Word2VecEditor = () => {
 	const [mathWord1, setMathWord1] = useState("");
 	const [mathWord2, setMathWord2] = useState("");
 	const [mathWord3, setMathWord3] = useState("");
+	const [models, setModels] = useState([]);
+	const [loadingModels, setLoadingModels] = useState(true);
 
-	const [modelIndex, setModelIndex] = useState(
-		models.findIndex(m => m.short_name === "ml5_medium")
-	);
+	const [modelIndex, setModelIndex] = useState(0);
 	const [loading, setLoading] = useState(false);
 
 	const [similarWords2, setSimilarWords2] = useState<SimilarWord[]>([]);
 
 	useEffect(() => {
-		setLoading(true);
-
-		wordVectors
-			.dispose()
-			.loadModel(models[modelIndex].url)
-			.then(() => {
-				reset();
-
-				setLoading(false);
+		setLoadingModels(true);
+		fetch(`/api/word2vec/get-models`)
+			.then(data => data.json())
+			.then(data => {
+				setModels(data);
+				setLoadingModels(false);
 			})
 			.catch(e => {
-				message.error(`An error occurred.`);
-				setLoading(false);
-				console.log(e);
+				setLoadingModels(false);
 			});
-	}, [modelIndex]);
+	}, []);
+
+	useEffect(() => {
+		setLoading(true);
+		if (models.length !== 0) {
+			fetch(models[modelIndex].url)
+				.then(data => data.json())
+				.then(model => {
+					wordVectors
+						.dispose()
+						.loadModel(model)
+						.then(() => {
+							reset();
+							setLoading(false);
+						})
+						.catch(e => {
+							message.error(`An error occurred.`);
+							setLoading(false);
+							console.log(e);
+						});
+				})
+				.catch(e => {
+					message.error(`An error occurred.`);
+					console.log(e);
+					setLoading(false);
+				});
+		}
+	}, [modelIndex, models]);
 
 	const reset = () => {
 		setWord("");
@@ -100,6 +123,15 @@ const Word2VecEditor = () => {
 	const handleModelChange = (e: any) => {
 		setModelIndex(models.findIndex(m => m.short_name === e));
 	};
+
+	if (loadingModels) {
+		// TODO: Add Animation
+		return (
+			<CenterContainer>
+				<Spin style={{ marginLeft: "8px" }}></Spin>
+			</CenterContainer>
+		);
+	}
 
 	return (
 		<Container>

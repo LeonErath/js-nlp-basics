@@ -1,27 +1,12 @@
-export interface Model {
-	name: string;
-	short_name: string;
-	language: string;
-	fileSize: string;
-	disable: boolean;
-	url: string;
-}
+import { Word2VecModel } from "../../../interfaces";
 
-export interface DataPoint {
-	x: number;
-	y: number;
-	z: number;
-	name: string;
-	input: string;
-}
-
-export const models: Model[] = [
+export const models: Word2VecModel[] = [
 	{
 		name: "Wikipedia (german)",
 		short_name: "wiki_ger",
 		language: "🇩🇪 German",
 		fileSize: "33,2 MB",
-		url: "./data/wikipedia_german.json",
+		url: "./models/Word2Vec/wikipedia_german.json",
 		disable: false
 	},
 	{
@@ -29,7 +14,7 @@ export const models: Model[] = [
 		short_name: "bible",
 		language: "🇺🇸 English",
 		fileSize: "7,1 MB",
-		url: "./data/bible.json",
+		url: "./models/Word2Vec/bible.json",
 		disable: false
 	},
 	{
@@ -37,7 +22,7 @@ export const models: Model[] = [
 		short_name: "ml5_big",
 		language: "🇺🇸 English",
 		fileSize: "28,6 MB",
-		url: "./data/wordvecs10000.json",
+		url: "./models/Word2Vec/wordvecs10000.json",
 		disable: false
 	},
 	{
@@ -45,7 +30,7 @@ export const models: Model[] = [
 		short_name: "ml5_medium",
 		language: "🇺🇸 English",
 		fileSize: "14,3 MB",
-		url: "./data/wordvecs5000.json",
+		url: "./models/Word2Vec/wordvecs5000.json",
 		disable: false
 	},
 	{
@@ -53,7 +38,13 @@ export const models: Model[] = [
 		short_name: "ml5_small",
 		language: "🇺🇸 English",
 		fileSize: "2,9 MB",
-		url: "./data/wordvecs1000.json",
+		url: "./models/Word2Vec/wordvecs1000.json",
 		disable: false
 	}
 ];
+
+const getModels = async (req, res) => {
+	res.send(models);
+};
+
+export default getModels;

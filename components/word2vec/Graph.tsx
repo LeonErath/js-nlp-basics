@@ -10,7 +10,7 @@ import {
 	YAxis,
 	ResponsiveContainer
 } from "recharts";
-import { DataPoint } from "./models";
+import { DataPoint } from "../../interfaces";
 
 interface Props {
 	loading: boolean;
