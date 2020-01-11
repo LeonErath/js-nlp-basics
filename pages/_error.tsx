@@ -27,9 +27,11 @@ const ErrorPage = styled.div`
 		}
 	}
 `;
+
 const BackgroundText = styled.div`
 	position: absolute;
 	display: flex;
+	font-weight: bold;
 	top: 0;
 	left: 0;
 	bottom: 0;

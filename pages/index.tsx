@@ -1,7 +1,7 @@
 import "antd/dist/antd.css";
 import Lottie from "react-lottie";
-import teaching from "../public/teaching.json";
-import React from "react";
+import teaching from "../public/illustrations/teaching.json";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Button } from "antd";
 import Link from "next/link";
@@ -13,7 +13,7 @@ const Container = styled.div`
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	background-image: url("/9.svg");
+	background-image: url("/backgrounds/9.svg");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center;
@@ -45,6 +45,20 @@ const Home = () => {
 			preserveAspectRatio: "xMidYMid slice"
 		}
 	};
+
+	useEffect(() => {
+		const getData = async () => {
+			fetch("/api/comments")
+				.then(data => data.json())
+				.then(data => {
+					console.log(data);
+				})
+				.catch(e => {
+					console.log(e);
+				});
+		};
+		getData();
+	}, []);
 	return (
 		<Container>
 			<Headline1>Hello World</Headline1>
