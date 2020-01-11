@@ -54,7 +54,7 @@ const Home = () => {
 					console.log(data);
 				})
 				.catch(e => {
-					console.log(e);
+					console.log("Error:", e);
 				});
 		};
 		getData();
