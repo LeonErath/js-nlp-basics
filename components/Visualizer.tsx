@@ -27,10 +27,10 @@ const Visualizer = () => {
 		let ranges: Range[] = [];
 
 		if (Text.isText(node)) {
-			// const { text } = node;
-			// const terms = (nlp(text)
-			// 	.terms()
-			// 	.out("offsets") as unknown) as Array<any>;
+			const { text } = node;
+			const terms = (nlp(text)
+				.terms()
+				.out("tags") as unknown) as Array<any>;
 			// terms.forEach((term: any) => {
 			// 	ranges = [
 			// 		...ranges,
