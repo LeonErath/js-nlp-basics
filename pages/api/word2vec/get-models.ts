@@ -6,7 +6,7 @@ export const models: Word2VecModel[] = [
 		short_name: "wiki_ger",
 		language: "🇩🇪 German",
 		fileSize: "33,2 MB",
-		url: "./models/Word2Vec/wikipedia_german.json",
+		url: "./models/word2vec/wikipedia_german.json",
 		disable: false
 	},
 	{
@@ -14,7 +14,7 @@ export const models: Word2VecModel[] = [
 		short_name: "bible",
 		language: "🇺🇸 English",
 		fileSize: "7,1 MB",
-		url: "./models/Word2Vec/bible.json",
+		url: "./models/word2vec/bible.json",
 		disable: false
 	},
 	{
@@ -22,7 +22,7 @@ export const models: Word2VecModel[] = [
 		short_name: "ml5_big",
 		language: "🇺🇸 English",
 		fileSize: "28,6 MB",
-		url: "./models/Word2Vec/wordvecs10000.json",
+		url: "./models/word2vec/wordvecs10000.json",
 		disable: false
 	},
 	{
@@ -30,7 +30,7 @@ export const models: Word2VecModel[] = [
 		short_name: "ml5_medium",
 		language: "🇺🇸 English",
 		fileSize: "14,3 MB",
-		url: "./models/Word2Vec/wordvecs5000.json",
+		url: "./models/word2vec/wordvecs5000.json",
 		disable: false
 	},
 	{
@@ -38,7 +38,7 @@ export const models: Word2VecModel[] = [
 		short_name: "ml5_small",
 		language: "🇺🇸 English",
 		fileSize: "2,9 MB",
-		url: "./models/Word2Vec/wordvecs1000.json",
+		url: "./models/word2vec/wordvecs1000.json",
 		disable: false
 	}
 ];
