@@ -4,6 +4,8 @@ import teaching from "../public/teaching.json";
 import React from "react";
 import styled from "styled-components";
 import { Button } from "antd";
+import Link from "next/link";
+import { A } from "../styles";
 
 const Container = styled.div`
 	width: 100%;
@@ -50,14 +52,18 @@ const Home = () => {
 				Explore, Learn, Discover natural language processing. Dive into the deep
 				world of artificial intelligence and linguistics.
 			</Headline2>
-			<Button type="primary" size="large" shape="round">
-				Let's Go
-			</Button>
+			<Link href="/playground">
+				<A>
+					<Button type="primary" size="large" shape="round">
+						Let's Go
+					</Button>
+				</A>
+			</Link>
 
 			<Lottie
 				options={{ ...defaultOptions, animationData: teaching }}
 				height={1080 / 2.4}
-				width={1920 / 2.4}
+				width={"100%"}
 			/>
 		</Container>
 	);

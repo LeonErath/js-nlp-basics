@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Link from "next/link";
 import { Button, Menu, Icon } from "antd";
 import Logo from "./Logo";
-import { A } from "./styles";
+import { A } from "../styles/A";
+import { maxWidth } from "../styles/Theme";
 const { SubMenu } = Menu;
 
 const MenuBar = styled.div`
@@ -17,28 +18,17 @@ const MenuBar = styled.div`
 	padding-right: 32px;
 	padding-left: 32px;
 	box-shadow: 0 2px 8px #f0f1f2;
-	@media (max-width: 768px) {
+	@media (max-width: ${maxWidth.SMALL}) {
 		align-items: center;
 		justify-content: center;
 	}
-`;
-
-const Description = styled.span`
-	font-weight: 300;
-	white-space: nowrap;
-	font-size: 22px;
-	font-weight: bold;
-	padding: 0px 16px;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	color: #0c0c0c;
 `;
 
 const MenuRight = styled.div`
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	@media (max-width: 768px) {
+	@media (max-width: ${maxWidth.SMALL}) {
 		visibility: collapse;
 	}
 `;
@@ -86,9 +76,9 @@ const Navbar = () => {
 		<MenuBar>
 			<MenuLeft>
 				<Link href="/">
-					<a>
+					<A>
 						<Logo></Logo>
-					</a>
+					</A>
 				</Link>
 			</MenuLeft>
 			<MenuRight>
