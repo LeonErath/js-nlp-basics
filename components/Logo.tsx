@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Lottie from "react-lottie";
-import logo1 from "../public/logo1.json";
-import logo2 from "../public/logo2.json";
-import logo3 from "../public/logo3.json";
-import logo4 from "../public/logo4.json";
+import logo1 from "../public/logo/logo1.json";
+import logo2 from "../public/logo/logo2.json";
+import logo3 from "../public/logo/logo3.json";
+import logo4 from "../public/logo/logo4.json";
 import styled from "styled-components";
 
 const Container = styled.div`
