@@ -3570,10 +3570,10 @@ compression@1.7.4, compression@^1.7.4:
     safe-buffer "5.1.2"
     vary "~1.1.2"
 
-compromise@^12.2.1:
-  version "12.2.1"
-  resolved "https://registry.yarnpkg.com/compromise/-/compromise-12.2.1.tgz#3b4b8cbee6b91903045a437ac7dc745ff61ba9ff"
-  integrity sha512-OnPvMnsCWv1TTDZwSZ7SAhE4yOOmkrLQoIQUDkZJ4gJxT0Hz9BvTHyIpishf7FwNZ7iMjVgxTLT+5h/BTuVGoQ==
+compromise@^12.3.0:
+  version "12.3.0"
+  resolved "https://registry.yarnpkg.com/compromise/-/compromise-12.3.0.tgz#ca203a31cf04bd9e2abbc46f6a9b0216ab885cf3"
+  integrity sha512-ilaqhz6XVLtMezz6ldO5Azd5L2M9G2NnynmKZzyuP81CTD63pAXsee/TSaXntu86eiNrRi/DHK7BsohtIxldug==
   dependencies:
     efrt-unpack "2.2.0"
 
