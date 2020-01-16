@@ -20,7 +20,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/recharts": "^1.8.4",
-    "@types/styled-components": "^4.4.1",
+    "@types/styled-components": "^4.4.2",
     "@zeit/next-css": "^1.0.1",
     "antd": "^3.26.4",
     "compromise": "^12.3.0",
