@@ -13,7 +13,7 @@
     "@tensorflow/tfjs": "^1.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
+    "@testing-library/user-event": "^8.0.3",
     "@types/jest": "^24.9.0",
     "@types/mongodb": "^3.3.14",
     "@types/node": "^13.1.8",
