@@ -23,7 +23,7 @@
     "@types/styled-components": "^4.4.2",
     "@zeit/next-css": "^1.0.1",
     "antd": "^3.26.7",
-    "compromise": "^12.3.0",
+    "compromise": "^13.0.0",
     "dotenv": "^8.2.0",
     "gh-pages": "^2.2.0",
     "husky": "^4.0.9",
