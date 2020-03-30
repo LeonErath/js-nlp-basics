@@ -22,7 +22,7 @@
     "@types/recharts": "^1.8.7",
     "@types/styled-components": "^4.4.3",
     "@zeit/next-css": "^1.0.1",
-    "antd": "^3.26.11",
+    "antd": "^4.1.0",
     "compromise": "^13.1.1",
     "dotenv": "^8.2.0",
     "gh-pages": "^2.2.0",
