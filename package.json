@@ -9,7 +9,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@now/node": "^1.4.1",
+    "@now/node": "^1.7.3",
     "@tensorflow/tfjs": "^1.5.2",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^9.3.2",
