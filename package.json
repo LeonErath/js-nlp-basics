@@ -33,7 +33,7 @@
     "react-dom": "^16.13.0",
     "react-lottie": "^1.2.3",
     "react-scripts": "3.4.0",
-    "recharts": "^2.0.0-beta.1",
+    "recharts": "^2.0.0-beta.7",
     "slate": "^0.57.1",
     "slate-react": "^0.57.1",
     "styled-components": "^4.4.1",
