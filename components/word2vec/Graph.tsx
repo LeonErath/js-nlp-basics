@@ -57,6 +57,7 @@ const Graph = React.memo(({ loading, data }: Props) => {
 						{uniqueInputs.map((input) => {
 							return (
 								<Scatter
+									className="scatter"
 									name={input}
 									data={data.filter((d) => d.input === input)}
 									fill={"#" + Math.random().toString(16).slice(2, 8)}
