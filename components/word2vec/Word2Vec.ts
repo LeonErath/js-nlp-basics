@@ -28,9 +28,9 @@ class Word2Vec {
 	}
 
 	loadModel(model: any) {
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 			try {
-				Object.keys(model.vectors).forEach(word => {
+				Object.keys(model.vectors).forEach((word) => {
 					this.model[word] = tf.tensor1d(model.vectors[word]);
 				});
 
@@ -57,7 +57,7 @@ class Word2Vec {
 				var opt = {
 					epsilon,
 					perplexity,
-					dim: 2
+					dim: 2,
 				};
 
 				const TSNE = new tsne.tSNE(opt); // create a tSNE instance
@@ -66,7 +66,7 @@ class Word2Vec {
 
 				const vectors = tf.tidy(() => {
 					let vectors: any = [];
-					inputs.forEach(input => {
+					inputs.forEach((input) => {
 						const vector = this.model[input];
 
 						if (vector) {
@@ -101,7 +101,7 @@ class Word2Vec {
 					y: d[1],
 					z: d[2],
 					name: names[index],
-					input: inputForName[index]
+					input: inputForName[index],
 				}));
 
 				resolve(data);
@@ -257,7 +257,7 @@ class Word2Vec {
 		max: number
 	): SimilarWord[] {
 		const nearestVectors: SimilarWord[] = [];
-		Object.keys(model).forEach(word => {
+		Object.keys(model).forEach((word) => {
 			const distance = tf.util.distSquared(
 				vector.dataSync(),
 				model[word].dataSync()

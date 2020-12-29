@@ -7,7 +7,15 @@ export const models: Word2VecModel[] = [
 		language: "🇩🇪 German",
 		fileSize: "33,2 MB",
 		url: "./models/word2vec/wikipedia_german.json",
-		disable: false
+		disable: false,
+	},
+	{
+		name: "Harry Potter 1-7",
+		short_name: "harry-potter",
+		language: "🇺🇸 English",
+		fileSize: "12,1 MB",
+		url: "./models/word2vec/harry-potter.json",
+		disable: false,
 	},
 	{
 		name: "Bible",
@@ -15,7 +23,7 @@ export const models: Word2VecModel[] = [
 		language: "🇺🇸 English",
 		fileSize: "7,1 MB",
 		url: "./models/word2vec/bible.json",
-		disable: false
+		disable: false,
 	},
 	{
 		name: "ML5 large",
@@ -23,7 +31,7 @@ export const models: Word2VecModel[] = [
 		language: "🇺🇸 English",
 		fileSize: "28,6 MB",
 		url: "./models/word2vec/wordvecs10000.json",
-		disable: false
+		disable: false,
 	},
 	{
 		name: "ML5 medium",
@@ -31,7 +39,7 @@ export const models: Word2VecModel[] = [
 		language: "🇺🇸 English",
 		fileSize: "14,3 MB",
 		url: "./models/word2vec/wordvecs5000.json",
-		disable: false
+		disable: false,
 	},
 	{
 		name: "ML5 small",
@@ -39,8 +47,8 @@ export const models: Word2VecModel[] = [
 		language: "🇺🇸 English",
 		fileSize: "2,9 MB",
 		url: "./models/word2vec/wordvecs1000.json",
-		disable: false
-	}
+		disable: false,
+	},
 ];
 
 const getModels = async (req, res) => {

@@ -38,12 +38,12 @@ const Word2VecEditor = () => {
 	useEffect(() => {
 		setLoadingModels(true);
 		fetch(`/api/word2vec/get-models`)
-			.then(data => data.json())
-			.then(data => {
+			.then((data) => data.json())
+			.then((data) => {
 				setModels(data);
 				setLoadingModels(false);
 			})
-			.catch(e => {
+			.catch((e) => {
 				setLoadingModels(false);
 			});
 	}, []);
@@ -52,24 +52,18 @@ const Word2VecEditor = () => {
 		setLoading(true);
 		if (models.length !== 0) {
 			fetch(models[modelIndex].url)
-				.then(data => data.json())
-				.then(model => {
-					wordVectors
-						.dispose()
-						.loadModel(model)
-						.then(() => {
-							reset();
-							setLoading(false);
-						})
-						.catch(e => {
-							message.error(`An error occurred.`);
-							setLoading(false);
-							console.log(e);
-						});
+				.then((data) => data.json())
+				.then((model) => {
+					return wordVectors.dispose().loadModel(model);
 				})
-				.catch(e => {
+				.then(() => {
+					reset();
+				})
+				.catch((e) => {
 					message.error(`An error occurred.`);
 					console.log(e);
+				})
+				.finally(() => {
 					setLoading(false);
 				});
 		}
@@ -121,7 +115,7 @@ const Word2VecEditor = () => {
 	};
 
 	const handleModelChange = (e: any) => {
-		setModelIndex(models.findIndex(m => m.short_name === e));
+		setModelIndex(models.findIndex((m) => m.short_name === e));
 	};
 
 	if (loadingModels) {
@@ -141,11 +135,11 @@ const Word2VecEditor = () => {
 					style={{ width: 220 }}
 					optionLabelProp="label"
 					onChange={handleModelChange}>
-					{models.map(m => {
+					{models.map((m) => {
 						return (
 							<Option disabled={m.disable} value={m.short_name} label={m.name}>
 								{m.name}
-								{m.short_name === "wiki_ger" && (
+								{m.short_name === "harry-potter" && (
 									<Tag style={{ marginLeft: "8px" }} color="geekblue">
 										new
 									</Tag>
@@ -183,9 +177,9 @@ const Word2VecEditor = () => {
 				mathWord2={mathWord2}
 				mathWord3={mathWord3}
 				calculate={calculate}
-				onWord1Change={e => setMathWord1(e)}
-				onWord2Change={e => setMathWord2(e)}
-				onWord3Change={e => setMathWord3(e)}></WordAlgebra>
+				onWord1Change={(e) => setMathWord1(e)}
+				onWord2Change={(e) => setMathWord2(e)}
+				onWord3Change={(e) => setMathWord3(e)}></WordAlgebra>
 		</Container>
 	);
 };
