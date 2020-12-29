@@ -8,7 +8,7 @@ import {
 	Tooltip,
 	XAxis,
 	YAxis,
-	ResponsiveContainer
+	ResponsiveContainer,
 } from "recharts";
 import { DataPoint } from "../../interfaces";
 
@@ -31,7 +31,7 @@ const Graph = React.memo(({ loading, data }: Props) => {
 		);
 	};
 
-	const uniqueInputs = [...new Set(data.map(item => item.input))];
+	const uniqueInputs = [...new Set(data.map((item) => item.input))];
 
 	return (
 		<div>
@@ -43,28 +43,23 @@ const Graph = React.memo(({ loading, data }: Props) => {
 							dataKey="y"
 							name="y"
 							type="number"
-							tickFormatter={tick => Math.ceil(tick)}
+							tickFormatter={(tick) => Math.ceil(tick).toString()}
 						/>
 						<XAxis
 							dataKey="x"
 							name="x"
 							type="number"
-							tickFormatter={tick => Math.ceil(tick)}
+							tickFormatter={(tick) => Math.ceil(tick).toString()}
 						/>
 
 						<Tooltip content={(props: any) => renderTooltip(props)} />
 						<Legend />
-						{uniqueInputs.map(input => {
+						{uniqueInputs.map((input) => {
 							return (
 								<Scatter
 									name={input}
-									data={data.filter(d => d.input === input)}
-									fill={
-										"#" +
-										Math.random()
-											.toString(16)
-											.slice(2, 8)
-									}
+									data={data.filter((d) => d.input === input)}
+									fill={"#" + Math.random().toString(16).slice(2, 8)}
 								/>
 							);
 						})}
