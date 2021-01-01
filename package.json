@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@now/node": "^1.8.5",
-    "@tensorflow/tfjs": "^1.5.2",
+    "@tensorflow/tfjs": "^2.8.2",
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^8.1.0",
