@@ -4311,10 +4311,10 @@ compression@1.7.4, compression@^1.7.4:
     safe-buffer "5.1.2"
     vary "~1.1.2"
 
-compromise@^13.1.1:
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/compromise/-/compromise-13.1.1.tgz#5466954cfe7dddd14b5f55c80f2329dcb48f4ac7"
-  integrity sha512-z54eBM+qbLS2/i/lYwCqDSkUMRXP0QZWW7XsffIiWGZpJPteTRr8laAEXoa4DQM5it5tGpE08cqRa8yZKYTcUw==
+compromise@^13.8.0:
+  version "13.8.0"
+  resolved "https://registry.yarnpkg.com/compromise/-/compromise-13.8.0.tgz#05dc8a0e3a248b499fc49b3b6a451af0c74c8efa"
+  integrity sha512-j+hIo096v9S3lEC9iEFP2nVqCDwvWD3GyqvL/fSIo4CcJ8ddFTbvufeTWcvfcpxU8dLkKLmcUIvM3EXu4Sw5mg==
   dependencies:
     efrt-unpack "2.2.0"
 
