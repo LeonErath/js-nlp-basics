@@ -22,7 +22,7 @@
     "@types/recharts": "^1.8.18",
     "@types/styled-components": "^4.4.3",
     "@zeit/next-css": "^1.0.1",
-    "antd": "^3.26.11",
+    "antd": "^4.10.0",
     "aws-sdk": "^2.824.0",
     "compromise": "^13.8.0",
     "dotenv": "^8.2.0",
