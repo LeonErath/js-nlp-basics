@@ -43,7 +43,7 @@
 		"react-scripts": "3.4.0",
 		"recharts": "^1.8.5",
 		"slate": "^0.57.1",
-		"slate-react": "^0.57.1",
+		"slate-react": "^0.59.0",
 		"styled-components": "^4.4.1",
 		"typescript": "~3.8.3"
 	},
