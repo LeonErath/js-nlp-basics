@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Text, Range } from "slate";
 import nlp from "compromise";
 import styled from "styled-components";
@@ -49,9 +48,7 @@ const posTagging = () => {
 				height: "100%",
 				alignItems: "center",
 			}}>
-			<Container>
-				<Editor analyze={analyze} />
-			</Container>
+			<Container>{/* <Editor analyze={analyze} /> */}</Container>
 		</div>
 	);
 };

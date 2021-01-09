@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-
-import { Text, Range } from "slate";
-import nlp from "compromise";
 import { Select } from "antd";
 import styled from "styled-components";
 import Word2VecEditor from "../../components/word2vec";
-
-const { Option } = Select;
 
 const Container = styled.div`
 	display: flex;

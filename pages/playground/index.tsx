@@ -1,8 +1,5 @@
 import React from "react";
-
-import { Text, Range } from "slate";
-import nlp from "compromise";
-import { Card, Select } from "antd";
+import { Card } from "antd";
 import styled from "styled-components";
 import Link from "next/link";
 
@@ -46,7 +43,7 @@ const Playground = () => {
 					title="POS-Tagging"
 					hoverable
 					extra={
-						<Link href="/playground/pos-tagging">
+						<Link href="/playground/postagging">
 							<a>more...</a>
 						</Link>
 					}
