@@ -1,7 +1,6 @@
 import { NowRequest, NowResponse } from "@vercel/node";
 import aws from "aws-sdk";
-
-const MB_SIZE = 1048576;
+import { MB_SIZE } from "../../data/filesize";
 
 export default async function handler(req: NowRequest, res: NowResponse) {
 	aws.config.update({

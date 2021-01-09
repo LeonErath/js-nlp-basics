@@ -1,5 +1,6 @@
 import { ok } from "assert";
 import aws from "aws-sdk";
+import { MB_SIZE } from "../../data/filesize";
 
 export default async function handler(req, res) {
 	aws.config.update({
@@ -28,7 +29,7 @@ export default async function handler(req, res) {
 					resolve({
 						id: o.ETag,
 						key: o.Key,
-						size: o.Size,
+						size: Math.round((100 * o.Size) / MB_SIZE) / 100,
 						lastModified: o.LastModified,
 						url: `https://nlp-modals.s3.eu-central-1.amazonaws.com/${o.Key}`,
 						...headObject.Metadata,

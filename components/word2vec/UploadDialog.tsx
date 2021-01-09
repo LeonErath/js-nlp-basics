@@ -1,9 +1,26 @@
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message, Modal, Progress, Select } from "antd";
+import {
+	CheckCircleTwoTone,
+	DeleteOutlined,
+	LoadingOutlined,
+	StopOutlined,
+	UploadOutlined,
+} from "@ant-design/icons";
+import {
+	Button,
+	Form,
+	Input,
+	message,
+	Modal,
+	Progress,
+	Select,
+	Spin,
+} from "antd";
 import Dragger from "antd/lib/upload/Dragger";
 import axios from "axios";
-import React, { useState } from "react";
+import word2vec from "./Word2Vec";
+import React, { useEffect, useState } from "react";
 import { getLanguage, langauges } from "../../data/languages";
+import { ifft } from "@tensorflow/tfjs";
 
 const { Option } = Select;
 
@@ -13,14 +30,40 @@ interface Props {
 	onCancel: () => void;
 }
 
+const wordVectors = word2vec();
+
 export const UploadDialog: React.FC<Props> = (props) => {
 	const [form] = Form.useForm();
 	const [files, setFiles] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [progress, setProgress] = useState(0);
+	const [content, setContent] = useState(null);
+	const [loadingModel, setLoadingModel] = useState(false);
+	const [modelValid, setModelValid] = useState(null);
+
+	useEffect(() => {
+		setLoadingModel(true);
+		wordVectors
+			.dispose()
+			.loadModel(JSON.parse(content))
+			.then(() => {
+				setModelValid(true);
+			})
+			.catch((err) => {
+				console.error(err);
+				setModelValid(false);
+			})
+			.finally(() => {
+				setLoadingModel(false);
+			});
+	}, [content]);
 
 	const uploadModel = async () => {
 		const data = await form.validateFields();
+
+		if (!modelValid) {
+			return;
+		}
 
 		const file = files[0];
 		const filename = encodeURIComponent(file.name);
@@ -47,6 +90,9 @@ export const UploadDialog: React.FC<Props> = (props) => {
 			.then((result) => {
 				if (result.status === 204) {
 					message.success("Your model was uploaded successfully! 🚀");
+					setFiles([]);
+					setContent(null);
+					setModelValid(null);
 					props.onOk();
 				} else {
 					message.error("Your model could not be uploaded.");
@@ -57,12 +103,20 @@ export const UploadDialog: React.FC<Props> = (props) => {
 			})
 			.finally(() => {
 				setLoading(false);
-				setFiles([]);
 			});
+	};
+
+	const readSingleFile = (file) => {
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			setContent(e.target.result);
+		};
+		reader.readAsText(file);
 	};
 
 	return (
 		<Modal
+			style={{ width: 600 }}
 			visible={props.isOpen}
 			title="Title"
 			onOk={uploadModel}
@@ -72,6 +126,7 @@ export const UploadDialog: React.FC<Props> = (props) => {
 					Cancel
 				</Button>,
 				<Button
+					disabled={!modelValid}
 					key="submit"
 					type="primary"
 					loading={loading}
@@ -94,8 +149,58 @@ export const UploadDialog: React.FC<Props> = (props) => {
 						accept="application/json"
 						fileList={files}
 						multiple={false}
-						onRemove={() => setFiles([])}
+						onRemove={() => {
+							setFiles([]);
+							setContent(null);
+							setModelValid(null);
+						}}
+						itemRender={(item, file) => {
+							return (
+								<>
+									<div
+										style={{
+											display: "flex",
+											justifyContent: "space-between",
+											alignItems: "center",
+											margin: "4px",
+										}}>
+										{file.name}
+										<div
+											style={{
+												display: "flex",
+												justifyContent: "center",
+												alignItems: "center",
+											}}>
+											{loadingModel && <LoadingOutlined />}
+											{modelValid ? (
+												<CheckCircleTwoTone
+													twoToneColor="#52c41a"
+													style={{ margin: "4px" }}
+												/>
+											) : (
+												<StopOutlined
+													style={{ margin: "4px", fill: "#c70303" }}
+												/>
+											)}
+											<Button
+												size="small"
+												shape="circle"
+												onClick={() => {
+													setFiles([]);
+													setContent(null);
+													setModelValid(null);
+												}}
+												icon={<DeleteOutlined />}></Button>
+										</div>
+									</div>
+
+									{loading && <Progress percent={progress}></Progress>}
+								</>
+							);
+						}}
 						beforeUpload={(file) => {
+							readSingleFile(file);
+
 							setFiles([file]);
 							if (file.name.includes(".")) {
 								form.setFieldsValue({ name: file.name.split(".")[0] });
@@ -113,7 +218,7 @@ export const UploadDialog: React.FC<Props> = (props) => {
 						</p>
 					</Dragger>
 				</Form.Item>
-				{loading && <Progress percent={progress}></Progress>}
+
 				<Form.Item
 					name="name"
 					label="Name"

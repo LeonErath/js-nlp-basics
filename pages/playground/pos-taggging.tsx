@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Text, Range } from "slate";
 import nlp from "compromise";
-import { Select } from "antd";
 import styled from "styled-components";
-import Editor from "../components/tagging";
-import Word2VecEditor from "../components/word2vec";
-
-const { Option } = Select;
+import Editor from "../../components/tagging";
 
 const Container = styled.div`
 	display: flex;
@@ -21,21 +17,13 @@ const Container = styled.div`
 	}
 `;
 
-const Playground = () => {
-	const [current, setCurrent] = useState("word2vec");
-
-	function handleChange(value: string) {
-		setCurrent(value);
-	}
-
+const posTagging = () => {
 	const analyze = ([node, path]: any) => {
 		let ranges: Range[] = [];
 
 		if (Text.isText(node)) {
 			const { text } = node;
-			const terms = (nlp(text)
-				.terms()
-				.out("tags") as unknown) as Array<any>;
+			const terms = (nlp(text).terms().out("tags") as unknown) as Array<any>;
 			// terms.forEach((term: any) => {
 			// 	ranges = [
 			// 		...ranges,
@@ -59,24 +47,13 @@ const Playground = () => {
 				flexDirection: "column",
 				width: "100%",
 				height: "100%",
-				alignItems: "center"
+				alignItems: "center",
 			}}>
 			<Container>
-				<Select
-					defaultValue={current}
-					style={{ width: 120 }}
-					onChange={handleChange}>
-					<Option value="tagging" disabled>
-						Tagging
-					</Option>
-					<Option value="word2vec">Word2Vec</Option>
-				</Select>
-
-				{current === "tagging" && <Editor analyze={analyze}></Editor>}
-				{current === "word2vec" && <Word2VecEditor></Word2VecEditor>}
+				<Editor analyze={analyze} />
 			</Container>
 		</div>
 	);
 };
 
-export default Playground;
+export default posTagging;

@@ -78,7 +78,7 @@ const ModelInfo = ({ model, loading, wordVectors }: Props) => {
 				<Col
 					span={3}
 					style={{ marginRight: "32px", marginTop: "16px", minWidth: "140px" }}>
-					<Statistic title="Size" value={model.size} />
+					<Statistic title="Size" value={`${model.size} MB`} />
 				</Col>
 				<Col span={4} style={{ marginTop: "16px", minWidth: "140px" }}>
 					<Statistic title="Language" value={getLanguage(model.language)} />
