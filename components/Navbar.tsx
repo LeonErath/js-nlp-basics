@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { Button, Menu, Icon } from "antd";
+import { Button, Menu } from "antd";
 import Logo from "./Logo";
 import { A } from "../styles/A";
 import { maxWidth } from "../styles/Theme";
+import { BookOutlined } from "@ant-design/icons";
+
 const { SubMenu } = Menu;
 
 const MenuBar = styled.div`
@@ -86,7 +88,7 @@ const Navbar = () => {
 					<SubMenu
 						title={
 							<span className="submenu-title-wrapper">
-								<Icon type="book" />
+								<BookOutlined />
 								Chapters
 							</span>
 						}>

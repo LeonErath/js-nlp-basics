@@ -1,3 +1,4 @@
+import { DownloadOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Spin, Statistic } from "antd";
 import React from "react";
 import styled from "styled-components";
@@ -83,7 +84,7 @@ const ModelInfo = ({ model, loading, wordVectors }: Props) => {
 				</Col>
 				<Button
 					style={{ marginTop: "16px", marginLeft: "8px" }}
-					icon="download"
+					icon={<DownloadOutlined />}
 					href={model.url}
 					download={model.short_name + ".json"}
 					target={"blank"}></Button>

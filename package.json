@@ -9,6 +9,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.3.0",
     "@now/node": "^1.8.5",
     "@tensorflow/tfjs": "^2.8.2",
     "@testing-library/jest-dom": "^5.11.8",
@@ -21,9 +22,12 @@
     "@types/react-dom": "^16.9.5",
     "@types/recharts": "^1.8.18",
     "@types/styled-components": "^4.4.3",
+    "@vercel/node": "^1.8.5",
     "@zeit/next-css": "^1.0.1",
-    "antd": "^3.26.11",
+    "antd": "^4.10.0",
     "aws-sdk": "^2.824.0",
+    "axios": "^0.21.1",
+    "classnames": "^2.2.6",
     "compromise": "^13.8.0",
     "dotenv": "^8.2.0",
     "gh-pages": "^2.2.0",

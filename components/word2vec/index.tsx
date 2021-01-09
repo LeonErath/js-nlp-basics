@@ -1,4 +1,5 @@
-import { message, Select, Spin, Tag } from "antd";
+import { Button, Input, message, Select, Spin, Tag } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import word2vec from "./Word2Vec";
@@ -8,6 +9,7 @@ import WordAlgebra from "./WordAlgebra";
 import WordEmbeddings from "./WordEmbeddings";
 import { DataPoint } from "../../interfaces";
 import { CenterContainer } from "../../styles/CenterContainer";
+import { UploadDialog } from "./UploadDialog";
 
 const { Option } = Select;
 
@@ -23,6 +25,8 @@ const Word2VecEditor = () => {
 	const [similarWords, setSimilarWords] = useState<SimilarWord[]>([]);
 	const [max, setMax] = useState(20);
 	const [graphData, setGraphData] = useState<DataPoint[]>([]);
+
+	const [isUploadDialogOpen, setUploadDialogOpen] = useState(false);
 
 	const [mathWord1, setMathWord1] = useState("");
 	const [mathWord2, setMathWord2] = useState("");
@@ -45,6 +49,12 @@ const Word2VecEditor = () => {
 			})
 			.catch((e) => {
 				setLoadingModels(false);
+			});
+
+		fetch(`/api/get-models`)
+			.then((data) => data.json())
+			.then((data) => {
+				console.log(data);
 			});
 	}, []);
 
@@ -129,8 +139,15 @@ const Word2VecEditor = () => {
 
 	return (
 		<Container>
-			<div style={{ display: "flex", width: "100%", alignItems: "center" }}>
+			<div
+				style={{
+					display: "flex",
+					width: "100%",
+					alignItems: "center",
+					justifyContent: "space-between",
+				}}>
 				<Select
+					loading={loading}
 					defaultValue={models[modelIndex].short_name}
 					style={{ width: 220 }}
 					optionLabelProp="label"
@@ -148,7 +165,13 @@ const Word2VecEditor = () => {
 						);
 					})}
 				</Select>
-				{loading && <Spin style={{ marginLeft: "8px" }}></Spin>}
+
+				<Button
+					onClick={() => setUploadDialogOpen(true)}
+					icon={<UploadOutlined />}
+					type="primary">
+					Upload own modal
+				</Button>
 			</div>
 
 			<ModelInfo
@@ -180,6 +203,11 @@ const Word2VecEditor = () => {
 				onWord1Change={(e) => setMathWord1(e)}
 				onWord2Change={(e) => setMathWord2(e)}
 				onWord3Change={(e) => setMathWord3(e)}></WordAlgebra>
+			<UploadDialog
+				isOpen={isUploadDialogOpen}
+				onOk={() => setUploadDialogOpen(false)}
+				onCancel={() => setUploadDialogOpen(false)}
+			/>
 		</Container>
 	);
 };

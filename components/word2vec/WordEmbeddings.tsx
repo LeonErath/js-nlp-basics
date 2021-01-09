@@ -6,7 +6,7 @@ import {
 	message,
 	Table,
 	Radio,
-	Select
+	Select,
 } from "antd";
 import React, { useState } from "react";
 import { SimilarWord } from "../../interfaces";
@@ -33,12 +33,12 @@ interface Props {
 const columns = [
 	{
 		title: "Word",
-		dataIndex: "word"
+		dataIndex: "word",
 	},
 	{
 		title: "Distance",
-		dataIndex: "distance"
-	}
+		dataIndex: "distance",
+	},
 ];
 
 const Text = styled.div`
@@ -63,7 +63,7 @@ const WordEmbeddings = ({
 	similarWords,
 	setSimilarWords,
 	graphData,
-	setGraphData
+	setGraphData,
 }: Props) => {
 	const [epislon, setEpsilon] = useState(10);
 	const [perplexity, setPerplexity] = useState(10);
@@ -137,7 +137,7 @@ const WordEmbeddings = ({
 						display: "flex",
 						width: "80%",
 						fontSize: "22px",
-						marginBottom: "16px"
+						marginBottom: "16px",
 					}}>
 					Word Embeddings
 				</div>
@@ -151,11 +151,11 @@ const WordEmbeddings = ({
 				style={{
 					display: "flex",
 					width: "100%",
-					flexWrap: "wrap"
+					flexWrap: "wrap",
 				}}>
 				<Input
 					disabled={loading}
-					onKeyDown={e => {
+					onKeyDown={(e) => {
 						if (e.key === "Enter") {
 							handleEmbeddings();
 						}
@@ -165,19 +165,19 @@ const WordEmbeddings = ({
 						marginRight: "8px",
 						marginTop: "16px",
 						maxWidth: "400px",
-						minWidth: "200px"
+						minWidth: "200px",
 					}}
 					placeholder="Type a word..."
-					onChange={e => setWord(e.target.value)}
+					onChange={(e) => setWord(e.target.value)}
 				/>
 				<InputNumber
 					disabled={loading}
 					min={1}
 					max={50}
 					defaultValue={max}
-					onChange={e => {
+					onChange={(e) => {
 						if (e) {
-							setMax(e);
+							setMax(Number(e.toString()));
 						}
 					}}
 					style={{ marginRight: "8px", marginTop: "16px" }}
@@ -208,7 +208,7 @@ const WordEmbeddings = ({
 							maxWidth: "400px",
 							marginTop: "16px",
 							width: "100%",
-							marginRight: "8px"
+							marginRight: "8px",
 						}}
 						placeholder="Add more words.."
 						onChange={(v: string[]) => setSecondWord(v)}></Select>

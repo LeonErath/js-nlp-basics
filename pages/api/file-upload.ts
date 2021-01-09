@@ -1,32 +1,33 @@
+import { NowRequest, NowResponse } from "@vercel/node";
 import aws from "aws-sdk";
 
-export default async function handler(req, res) {
-	console.log({
-		accessKeyId: process.env.ACCESS_KEY,
-		secretAccessKey: process.env.SECRET_KEY,
-		region: process.env.REGION,
-		signatureVersion: "v4",
-	});
+const MB_SIZE = 1048576;
 
+export default async function handler(req: NowRequest, res: NowResponse) {
 	aws.config.update({
 		accessKeyId: process.env.ACCESS_KEY,
 		secretAccessKey: process.env.SECRET_KEY,
 		region: process.env.REGION,
 		signatureVersion: "v4",
 	});
+	console.log(req.query);
 
 	const s3 = new aws.S3();
 
-	const post = await s3.createPresignedPost({
+	const request = s3.createPresignedPost({
 		Bucket: process.env.BUCKET_NAME,
 		Fields: {
 			key: req.query.file,
 		},
-		Expires: 60, // seconds
+		Expires: 60,
 		Conditions: [
-			["content-length-range", 0, 1048576], // up to 1 MB
+			["content-length-range", 0, MB_SIZE * 50], // up to 50 MB
+			["eq", "$x-amz-meta-name", req.query.fileName],
 		],
 	});
+	request.fields["x-amz-meta-name"] = req.query.fileName as any;
+
+	const post = await request;
 
 	res.status(200).json(post);
 }
