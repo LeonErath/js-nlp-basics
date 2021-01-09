@@ -30,6 +30,7 @@ export default async function handler(req, res) {
 						key: o.Key,
 						size: o.Size,
 						lastModified: o.LastModified,
+						url: `https://nlp-modals.s3.eu-central-1.amazonaws.com/${o.Key}`,
 						...headObject.Metadata,
 					});
 				})

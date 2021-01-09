@@ -1,8 +1,11 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message, Modal, Progress } from "antd";
+import { Button, Form, Input, message, Modal, Progress, Select } from "antd";
 import Dragger from "antd/lib/upload/Dragger";
 import axios from "axios";
 import React, { useState } from "react";
+import { getLanguage, langauges } from "../../data/languages";
+
+const { Option } = Select;
 
 interface Props {
 	isOpen: boolean;
@@ -25,7 +28,7 @@ export const UploadDialog: React.FC<Props> = (props) => {
 		setLoading(true);
 
 		const res = await fetch(
-			`/api/file-upload?file=${filename}&name=${data.name}`
+			`/api/file-upload?file=${filename}&fileName=${data.name}&language=${data.language}`
 		);
 
 		const { url, fields } = await res.json();
@@ -118,6 +121,25 @@ export const UploadDialog: React.FC<Props> = (props) => {
 					style={{ marginTop: "16px" }}
 					rules={[{ required: true, message: "Please name your model." }]}>
 					<Input placeholder="Name your model..."></Input>
+				</Form.Item>
+				<Form.Item
+					name="language"
+					label="Choose a language"
+					hidden={files.length === 0}
+					style={{ marginTop: "16px" }}
+					rules={[
+						{
+							required: true,
+							message: "Please select a language for your model.",
+						},
+					]}>
+					<Select placeholder="Select a language...">
+						{langauges.map((l) => (
+							<Option key={l} value={l}>
+								{getLanguage(l)}
+							</Option>
+						))}
+					</Select>
 				</Form.Item>
 			</Form>
 		</Modal>

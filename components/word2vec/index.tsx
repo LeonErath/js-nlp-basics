@@ -41,26 +41,21 @@ const Word2VecEditor = () => {
 
 	useEffect(() => {
 		setLoadingModels(true);
-		fetch(`/api/word2vec/get-models`)
-			.then((data) => data.json())
-			.then((data) => {
-				setModels(data);
-				setLoadingModels(false);
-			})
-			.catch((e) => {
-				setLoadingModels(false);
-			});
 
 		fetch(`/api/get-models`)
 			.then((data) => data.json())
 			.then((data) => {
-				console.log(data);
+				setModels(data);
+			})
+			.finally(() => {
+				setLoadingModels(false);
 			});
-	}, []);
+	}, [isUploadDialogOpen]);
 
 	useEffect(() => {
-		setLoading(true);
 		if (models.length !== 0) {
+			setLoading(true);
+
 			fetch(models[modelIndex].url)
 				.then((data) => data.json())
 				.then((model) => {
@@ -125,7 +120,7 @@ const Word2VecEditor = () => {
 	};
 
 	const handleModelChange = (e: any) => {
-		setModelIndex(models.findIndex((m) => m.short_name === e));
+		setModelIndex(models.findIndex((m) => m.name === e));
 	};
 
 	if (loadingModels) {
@@ -148,15 +143,15 @@ const Word2VecEditor = () => {
 				}}>
 				<Select
 					loading={loading}
-					defaultValue={models[modelIndex].short_name}
+					defaultValue={models[modelIndex]?.name}
 					style={{ width: 220 }}
 					optionLabelProp="label"
 					onChange={handleModelChange}>
 					{models.map((m) => {
 						return (
-							<Option disabled={m.disable} value={m.short_name} label={m.name}>
+							<Option disabled={m.disable} value={m.name} label={m.name}>
 								{m.name}
-								{m.short_name === "harry-potter" && (
+								{m.name === "harry-potter" && (
 									<Tag style={{ marginLeft: "8px" }} color="geekblue">
 										new
 									</Tag>

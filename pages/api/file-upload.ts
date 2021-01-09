@@ -23,9 +23,11 @@ export default async function handler(req: NowRequest, res: NowResponse) {
 		Conditions: [
 			["content-length-range", 0, MB_SIZE * 50], // up to 50 MB
 			["eq", "$x-amz-meta-name", req.query.fileName],
+			["eq", "$x-amz-meta-language", req.query.language],
 		],
 	});
 	request.fields["x-amz-meta-name"] = req.query.fileName as any;
+	request.fields["x-amz-meta-language"] = req.query.language as any;
 
 	const post = await request;
 

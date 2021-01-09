@@ -1,9 +1,9 @@
 export interface Word2VecModel {
 	name: string;
-	short_name: string;
 	language: string;
-	fileSize: string;
-	disable: boolean;
+	size: string;
+	lastModified: string;
+	id: string;
 	url: string;
 }
 
@@ -14,5 +14,5 @@ export interface SimilarWord {
 
 export enum OperationType {
 	ADD = "ADD",
-	SUBTRACT = "SUBTRACGT"
+	SUBTRACT = "SUBTRACGT",
 }

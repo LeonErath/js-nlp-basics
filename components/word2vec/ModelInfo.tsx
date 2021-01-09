@@ -2,6 +2,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Spin, Statistic } from "antd";
 import React from "react";
 import styled from "styled-components";
+import { getLanguage } from "../../data/languages";
 import { Word2VecModel } from "../../interfaces";
 
 interface Props {
@@ -77,16 +78,16 @@ const ModelInfo = ({ model, loading, wordVectors }: Props) => {
 				<Col
 					span={3}
 					style={{ marginRight: "32px", marginTop: "16px", minWidth: "140px" }}>
-					<Statistic title="Size" value={model.fileSize} />
+					<Statistic title="Size" value={model.size} />
 				</Col>
 				<Col span={4} style={{ marginTop: "16px", minWidth: "140px" }}>
-					<Statistic title="Language" value={model.language} />
+					<Statistic title="Language" value={getLanguage(model.language)} />
 				</Col>
 				<Button
 					style={{ marginTop: "16px", marginLeft: "8px" }}
 					icon={<DownloadOutlined />}
 					href={model.url}
-					download={model.short_name + ".json"}
+					download={model.name}
 					target={"blank"}></Button>
 			</Row>
 		</StyledRow>
