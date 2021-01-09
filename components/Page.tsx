@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Page = (props) => {
-	console.log(process.env);
+	console.log(process.env.VERCEL_URL);
 
 	return (
 		<Auth0Provider
@@ -26,7 +26,7 @@ const Page = (props) => {
 			redirectUri={
 				process.env.VERCEL_URL
 					? process.env.VERCEL_URL
-					: 'http://localhost:3000'
+					: 'https://nlp-basics.tech/'
 			}
 		>
 			<ThemeProvider theme={myTheme}>
