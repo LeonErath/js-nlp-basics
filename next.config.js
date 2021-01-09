@@ -1,10 +1,11 @@
 // next.config.js
-require("dotenv").config();
+require('dotenv').config();
 
-const withCSS = require("@zeit/next-css");
+const withCSS = require('@zeit/next-css');
 module.exports = withCSS({
 	env: {
 		MONGODB_URI: process.env.MONGODB_URI,
+		VERCEL_URL: process.env.VERCEL_URL,
 		ACCESS_KEY: process.env.ACCESS_KEY,
 		SECRET_KEY: process.env.SECRET_KEY,
 		REGION: process.env.REGION,
