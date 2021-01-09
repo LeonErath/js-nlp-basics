@@ -1,11 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-import Link from "next/link";
-import { Button, Menu } from "antd";
-import Logo from "./Logo";
-import { A } from "../styles/A";
-import { maxWidth } from "../styles/Theme";
-import { BookOutlined } from "@ant-design/icons";
+import React from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
+import { Button, Dropdown, Menu } from 'antd';
+import Logo from './Logo';
+import { A } from '../styles/A';
+import { maxWidth } from '../styles/Theme';
+import {
+	BookOutlined,
+	DownOutlined,
+	LogoutOutlined,
+	UserOutlined,
+} from '@ant-design/icons';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const { SubMenu } = Menu;
 
@@ -74,6 +80,44 @@ const MenuDiv = styled(Menu)`
 `;
 
 const Navbar = () => {
+	const {
+		loginWithRedirect,
+		isAuthenticated,
+		logout,
+		isLoading,
+		user,
+	} = useAuth0();
+
+	if (isLoading) {
+		return <MenuBar>Loading...</MenuBar>;
+	}
+
+	const renderProfileDropdown = () => {
+		const menu = (
+			<Menu>
+				<Menu.Item>
+					<Link href="/profile">
+						<a>
+							<UserOutlined /> Profile
+						</a>
+					</Link>
+				</Menu.Item>
+				<Menu.Item onClick={() => logout()}>
+					<LogoutOutlined />
+					Logout
+				</Menu.Item>
+			</Menu>
+		);
+
+		return (
+			<Dropdown overlay={menu} placement="bottomCenter" arrow>
+				<Button>
+					{user.name} <DownOutlined />{' '}
+				</Button>
+			</Dropdown>
+		);
+	};
+
 	return (
 		<MenuBar>
 			<MenuLeft>
@@ -84,26 +128,35 @@ const Navbar = () => {
 				</Link>
 			</MenuLeft>
 			<MenuRight>
-				<MenuDiv selectedKeys={["mail"]} mode="horizontal" className="nav">
+				<MenuDiv
+					selectedKeys={['mail']}
+					mode="horizontal"
+					className="nav"
+				>
 					<SubMenu
 						title={
 							<span className="submenu-title-wrapper">
 								<BookOutlined />
 								Chapters
 							</span>
-						}>
+						}
+					>
 						<Menu.Item key="chapter:1">Tagging</Menu.Item>
-						<Menu.Item key="chapter:2">String Similarities</Menu.Item>
-						<Menu.Item key="chapter:3">Deep Neural Networks</Menu.Item>
+						<Menu.Item key="chapter:2">
+							String Similarities
+						</Menu.Item>
+						<Menu.Item key="chapter:3">
+							Deep Neural Networks
+						</Menu.Item>
 						<Menu.Item key="chapter:4">Tools</Menu.Item>
 						<Menu.Item key="chapter:5">Use Cases</Menu.Item>
 					</SubMenu>
 				</MenuDiv>
-				<Button>
-					<Link href="/playground">
-						<a>Playground</a>
-					</Link>
-				</Button>
+				{isAuthenticated ? (
+					renderProfileDropdown()
+				) : (
+					<Button onClick={() => loginWithRedirect()}>Login</Button>
+				)}
 			</MenuRight>
 		</MenuBar>
 	);

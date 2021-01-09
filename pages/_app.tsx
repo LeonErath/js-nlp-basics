@@ -1,16 +1,12 @@
-import React from "react";
-import App from "next/app";
-import Page from "../components/Page";
+import React from 'react';
+import Page from '../components/Page';
 
-class MyApp extends App {
-	render() {
-		const { Component } = this.props;
-		return (
-			<Page>
-				<Component />
-			</Page>
-		);
-	}
-}
+const MyApp = ({ Component, pageProps }) => {
+	return (
+		<Page>
+			<Component {...pageProps} />
+		</Page>
+	);
+};
 
 export default MyApp;
