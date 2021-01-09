@@ -17,6 +17,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Page = (props) => {
+	console.log(process.env);
+
 	return (
 		<Auth0Provider
 			domain="dev-5809a71r.eu.auth0.com"
