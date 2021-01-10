@@ -1,7 +1,7 @@
-import React from "react";
-import { Card } from "antd";
-import styled from "styled-components";
-import Link from "next/link";
+import React from 'react';
+import { Card } from 'antd';
+import styled from 'styled-components';
+import Link from 'next/link';
 
 const Container = styled.div`
 	display: flex;
@@ -19,12 +19,13 @@ const Playground = () => {
 	return (
 		<div
 			style={{
-				display: "flex",
-				flexDirection: "column",
-				width: "100%",
-				height: "100%",
-				alignItems: "center",
-			}}>
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				height: '100%',
+				alignItems: 'center',
+			}}
+		>
 			<Container>
 				<Card
 					title="Word2Vec"
@@ -34,7 +35,8 @@ const Playground = () => {
 							<a>more...</a>
 						</Link>
 					}
-					style={{ width: 300, margin: "16px", height: 300 }}>
+					style={{ width: 300, margin: '16px', height: 300 }}
+				>
 					<p>Card content</p>
 					<p>Card content</p>
 					<p>Card content</p>
@@ -47,7 +49,8 @@ const Playground = () => {
 							<a>more...</a>
 						</Link>
 					}
-					style={{ width: 300, margin: "16px", height: 300 }}>
+					style={{ width: 300, margin: '16px', height: 300 }}
+				>
 					<p>Card content</p>
 					<p>Card content</p>
 					<p>Card content</p>

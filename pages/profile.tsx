@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import withAuth from '../../components/with-auth';
-import Word2VecEditor from '../../components/word2vec';
+import withAuth from '../components/with-auth';
+import { useUser } from '../lib/user';
 
 const Container = styled.div`
 	display: flex;
@@ -15,7 +15,13 @@ const Container = styled.div`
 	}
 `;
 
-const word2vec = () => {
+const Profile = () => {
+	const { user, loading } = useUser();
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
 	return (
 		<div
 			style={{
@@ -27,10 +33,17 @@ const word2vec = () => {
 			}}
 		>
 			<Container>
-				<Word2VecEditor></Word2VecEditor>
+				<div>
+					<div>name: {user.name}</div>
+					<div>email: {user.email}</div>
+					<div>nickname: {user.nickname}</div>
+					<div>
+						pic: <img src={user.picture} />
+					</div>
+				</div>
 			</Container>
 		</div>
 	);
 };
 
-export default withAuth(word2vec);
+export default withAuth(Profile);

@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@ant-design/icons": "^4.3.0",
-		"@auth0/auth0-react": "^1.2.0",
+		"@auth0/nextjs-auth0": "^0.16.0",
 		"@now/node": "^1.8.5",
 		"@tensorflow/tfjs": "^2.8.2",
 		"@testing-library/jest-dom": "^5.11.8",

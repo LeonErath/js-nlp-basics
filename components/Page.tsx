@@ -1,8 +1,8 @@
-import { Auth0Provider } from '@auth0/auth0-react';
 import 'antd/dist/antd.css';
 import React from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Navbar from '../components/Navbar';
+import { useFetchUser, UserProvider } from '../lib/user';
 import { myTheme } from '../styles/Theme';
 
 const GlobalStyle = createGlobalStyle`
@@ -17,18 +17,11 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Page = (props) => {
-	console.log(process.env.VERCEL_URL);
+	console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
+	const { user, loading } = useFetchUser();
 
 	return (
-		<Auth0Provider
-			domain="dev-5809a71r.eu.auth0.com"
-			clientId="Xa15g6lYIkg5lp5R8fF4Z0n4rmYRf1xA"
-			redirectUri={
-				process.env.VERCEL_URL
-					? process.env.VERCEL_URL
-					: 'https://nlp-basics.tech/'
-			}
-		>
+		<UserProvider value={{ user, loading }}>
 			<ThemeProvider theme={myTheme}>
 				<GlobalStyle />
 				<div
@@ -42,7 +35,7 @@ const Page = (props) => {
 					{props.children}
 				</div>
 			</ThemeProvider>
-		</Auth0Provider>
+		</UserProvider>
 	);
 };
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import withAuth from '../../components/with-auth';
-import Word2VecEditor from '../../components/word2vec';
 
 const Container = styled.div`
 	display: flex;
@@ -15,7 +13,7 @@ const Container = styled.div`
 	}
 `;
 
-const word2vec = () => {
+const Logout = () => {
 	return (
 		<div
 			style={{
@@ -27,10 +25,10 @@ const word2vec = () => {
 			}}
 		>
 			<Container>
-				<Word2VecEditor></Word2VecEditor>
+				<div>you were successfully signed out.</div>
 			</Container>
 		</div>
 	);
 };
 
-export default withAuth(word2vec);
+export default Logout;

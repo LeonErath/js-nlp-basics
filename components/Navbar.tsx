@@ -11,7 +11,7 @@ import {
 	LogoutOutlined,
 	UserOutlined,
 } from '@ant-design/icons';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useUser } from '../lib/user';
 
 const { SubMenu } = Menu;
 
@@ -80,17 +80,7 @@ const MenuDiv = styled(Menu)`
 `;
 
 const Navbar = () => {
-	const {
-		loginWithRedirect,
-		isAuthenticated,
-		logout,
-		isLoading,
-		user,
-	} = useAuth0();
-
-	if (isLoading) {
-		return <MenuBar>Loading...</MenuBar>;
-	}
+	const { user, loading } = useUser();
 
 	const renderProfileDropdown = () => {
 		const menu = (
@@ -102,9 +92,13 @@ const Navbar = () => {
 						</a>
 					</Link>
 				</Menu.Item>
-				<Menu.Item onClick={() => logout()}>
-					<LogoutOutlined />
-					Logout
+				<Menu.Item>
+					<Link href="/api/logout">
+						<a>
+							<LogoutOutlined />
+							Logout
+						</a>
+					</Link>
 				</Menu.Item>
 			</Menu>
 		);
@@ -117,6 +111,10 @@ const Navbar = () => {
 			</Dropdown>
 		);
 	};
+
+	if (loading) {
+		return <div>loadingg</div>;
+	}
 
 	return (
 		<MenuBar>
@@ -152,10 +150,10 @@ const Navbar = () => {
 						<Menu.Item key="chapter:5">Use Cases</Menu.Item>
 					</SubMenu>
 				</MenuDiv>
-				{isAuthenticated ? (
+				{user ? (
 					renderProfileDropdown()
 				) : (
-					<Button onClick={() => loginWithRedirect()}>Login</Button>
+					<Button href="/api/login">Login</Button>
 				)}
 			</MenuRight>
 		</MenuBar>
