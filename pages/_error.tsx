@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { Button } from "antd";
-import PersonReading from "../styles/icons/PersonReading";
-import { maxWidth } from "../styles/Theme";
-import Link from "next/link";
-import { A } from "../styles";
+import React from 'react';
+import styled from 'styled-components';
+import { Button } from 'antd';
+import PersonReading from '../styles/icons/PersonReading';
+import { maxWidth } from '../styles/Theme';
+import Link from 'next/link';
+import { A } from '../styles';
 
 const ErrorPage = styled.div`
 	height: 100%;
@@ -53,7 +53,7 @@ const BackgroundText = styled.div`
 const Error = ({ statusCode }) => {
 	return (
 		<ErrorPage>
-			<BackgroundText>{statusCode ? statusCode : "404"}</BackgroundText>
+			<BackgroundText>{statusCode ? statusCode : '404'}</BackgroundText>
 			<PersonReading height="50%"></PersonReading>
 			<p>Ooops, that did not work.</p>
 			<Link href="/">

@@ -1,4 +1,3 @@
-import 'antd/dist/antd.css';
 import Lottie from 'react-lottie';
 import teaching from '../public/illustrations/teaching.json';
 import React, { useEffect } from 'react';
