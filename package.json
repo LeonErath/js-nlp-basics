@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@ant-design/icons": "^4.3.0",
 		"@auth0/nextjs-auth0": "^0.16.0",
+		"@babel/runtime": "^7.12.5",
 		"@tensorflow/tfjs": "^2.8.2",
 		"@testing-library/jest-dom": "^5.11.8",
 		"@testing-library/react": "^9.3.2",
@@ -96,5 +97,8 @@
 				]
 			}
 		}
+	},
+	"resolutions": {
+		"@babel/runtime": "^7.12.5"
 	}
 }
