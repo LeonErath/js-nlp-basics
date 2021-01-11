@@ -1,3 +1,6 @@
+import { LoginOutlined } from '@ant-design/icons';
+import { Button, Result } from 'antd';
+import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -25,7 +28,25 @@ const Logout = () => {
 			}}
 		>
 			<Container>
-				<div>you were successfully signed out.</div>
+				<Result
+					status="success"
+					title="You successfully logged out."
+					subTitle="we are happy when you are happy"
+					extra={[
+						<Button type="primary" key="home">
+							<Link href="/">
+								<a>Home</a>
+							</Link>
+						</Button>,
+						<Button key="login">
+							<Link href="/api/login">
+								<a>
+									<LoginOutlined /> Login again
+								</a>
+							</Link>
+						</Button>,
+					]}
+				/>
 			</Container>
 		</div>
 	);

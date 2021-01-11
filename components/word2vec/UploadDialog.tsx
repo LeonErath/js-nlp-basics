@@ -4,23 +4,13 @@ import {
 	LoadingOutlined,
 	StopOutlined,
 	UploadOutlined,
-} from "@ant-design/icons";
-import {
-	Button,
-	Form,
-	Input,
-	message,
-	Modal,
-	Progress,
-	Select,
-	Spin,
-} from "antd";
-import Dragger from "antd/lib/upload/Dragger";
-import axios from "axios";
-import word2vec from "./Word2Vec";
-import React, { useEffect, useState } from "react";
-import { getLanguage, langauges } from "../../data/languages";
-import { ifft } from "@tensorflow/tfjs";
+} from '@ant-design/icons';
+import { Button, Form, Input, message, Modal, Progress, Select } from 'antd';
+import Dragger from 'antd/lib/upload/Dragger';
+import axios from 'axios';
+import word2vec from './Word2Vec';
+import React, { useEffect, useState } from 'react';
+import { getLanguage, langauges } from '../../data/languages';
 
 const { Option } = Select;
 
@@ -89,17 +79,17 @@ export const UploadDialog: React.FC<Props> = (props) => {
 			})
 			.then((result) => {
 				if (result.status === 204) {
-					message.success("Your model was uploaded successfully! 🚀");
+					message.success('Your model was uploaded successfully! 🚀');
 					setFiles([]);
 					setContent(null);
 					setModelValid(null);
 					props.onOk();
 				} else {
-					message.error("Your model could not be uploaded.");
+					message.error('Your model could not be uploaded.');
 				}
 			})
 			.catch((err: Error) => {
-				message.error("An error occured: " + err.message);
+				message.error('An error occured: ' + err.message);
 			})
 			.finally(() => {
 				setLoading(false);
@@ -131,10 +121,12 @@ export const UploadDialog: React.FC<Props> = (props) => {
 					type="primary"
 					loading={loading}
 					icon={<UploadOutlined />}
-					onClick={uploadModel}>
+					onClick={uploadModel}
+				>
 					Upload
 				</Button>,
-			]}>
+			]}
+		>
 			<Form form={form} layout="vertical" name="basicForm">
 				<Form.Item
 					name="model"
@@ -142,9 +134,10 @@ export const UploadDialog: React.FC<Props> = (props) => {
 					rules={[
 						{
 							required: true,
-							message: "Please select a custom model to upload.",
+							message: 'Please select a custom model to upload.',
 						},
-					]}>
+					]}
+				>
 					<Dragger
 						accept="application/json"
 						fileList={files}
@@ -159,27 +152,34 @@ export const UploadDialog: React.FC<Props> = (props) => {
 								<>
 									<div
 										style={{
-											display: "flex",
-											justifyContent: "space-between",
-											alignItems: "center",
-											margin: "4px",
-										}}>
+											display: 'flex',
+											justifyContent: 'space-between',
+											alignItems: 'center',
+											margin: '4px',
+										}}
+									>
 										{file.name}
 										<div
 											style={{
-												display: "flex",
-												justifyContent: "center",
-												alignItems: "center",
-											}}>
-											{loadingModel && <LoadingOutlined />}
+												display: 'flex',
+												justifyContent: 'center',
+												alignItems: 'center',
+											}}
+										>
+											{loadingModel && (
+												<LoadingOutlined />
+											)}
 											{modelValid ? (
 												<CheckCircleTwoTone
 													twoToneColor="#52c41a"
-													style={{ margin: "4px" }}
+													style={{ margin: '4px' }}
 												/>
 											) : (
 												<StopOutlined
-													style={{ margin: "4px", fill: "#c70303" }}
+													style={{
+														margin: '4px',
+														fill: '#c70303',
+													}}
 												/>
 											)}
 											<Button
@@ -190,11 +190,14 @@ export const UploadDialog: React.FC<Props> = (props) => {
 													setContent(null);
 													setModelValid(null);
 												}}
-												icon={<DeleteOutlined />}></Button>
+												icon={<DeleteOutlined />}
+											></Button>
 										</div>
 									</div>
 
-									{loading && <Progress percent={progress}></Progress>}
+									{loading && (
+										<Progress percent={progress}></Progress>
+									)}
 								</>
 							);
 						}}
@@ -202,18 +205,22 @@ export const UploadDialog: React.FC<Props> = (props) => {
 							readSingleFile(file);
 
 							setFiles([file]);
-							if (file.name.includes(".")) {
-								form.setFieldsValue({ name: file.name.split(".")[0] });
+							if (file.name.includes('.')) {
+								form.setFieldsValue({
+									name: file.name.split('.')[0],
+								});
 							} else {
 								form.setFieldsValue({ name: file.name });
 							}
 							return false;
-						}}>
+						}}
+					>
 						<p className="ant-upload-text">
 							<UploadOutlined /> Select a file
 						</p>
 						<p className="ant-upload-hint">
-							Click or drag your model to this area to upload your<br></br>
+							Click or drag your model to this area to upload your
+							<br></br>
 							custom model. (Max. 50MB)
 						</p>
 					</Dragger>
@@ -223,21 +230,25 @@ export const UploadDialog: React.FC<Props> = (props) => {
 					name="name"
 					label="Name"
 					hidden={files.length === 0}
-					style={{ marginTop: "16px" }}
-					rules={[{ required: true, message: "Please name your model." }]}>
+					style={{ marginTop: '16px' }}
+					rules={[
+						{ required: true, message: 'Please name your model.' },
+					]}
+				>
 					<Input placeholder="Name your model..."></Input>
 				</Form.Item>
 				<Form.Item
 					name="language"
 					label="Choose a language"
 					hidden={files.length === 0}
-					style={{ marginTop: "16px" }}
+					style={{ marginTop: '16px' }}
 					rules={[
 						{
 							required: true,
-							message: "Please select a language for your model.",
+							message: 'Please select a language for your model.',
 						},
-					]}>
+					]}
+				>
 					<Select placeholder="Select a language...">
 						{langauges.map((l) => (
 							<Option key={l} value={l}>

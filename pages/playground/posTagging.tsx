@@ -1,8 +1,5 @@
-import React from "react";
-import { Text, Range } from "slate";
-import nlp from "compromise";
-import styled from "styled-components";
-import Editor from "../../components/tagging";
+import React from 'react';
+import styled from 'styled-components';
 
 const Container = styled.div`
 	display: flex;
@@ -17,37 +14,40 @@ const Container = styled.div`
 `;
 
 const posTagging = () => {
-	const analyze = ([node, path]: any) => {
-		let ranges: Range[] = [];
+	// const analyze = ([node, path]: any) => {
+	// 	const ranges: Range[] = [];
 
-		if (Text.isText(node)) {
-			const { text } = node;
-			const terms = (nlp(text).terms().out("tags") as unknown) as Array<any>;
-			// terms.forEach((term: any) => {
-			// 	ranges = [
-			// 		...ranges,
-			// 		{
-			// 			anchor: { path, offset: term.offset.start },
-			// 			focus: { path, offset: term.offset.start + term.offset.length },
-			// 			highlight: true,
-			// 			tag: term.terms[0].tags[0]
-			// 		}
-			// 	];
-			// });
-		}
+	// 	if (Text.isText(node)) {
+	// 		const { text } = node;
+	// 		const terms = (nlp(text)
+	// 			.terms()
+	// 			.out('tags') as unknown) as Array<any>;
+	// 		terms.forEach((term: any) => {
+	// 			ranges = [
+	// 				...ranges,
+	// 				{
+	// 					anchor: { path, offset: term.offset.start },
+	// 					focus: { path, offset: term.offset.start + term.offset.length },
+	// 					highlight: true,
+	// 					tag: term.terms[0].tags[0]
+	// 				}
+	// 			];
+	// 		});
+	// 	}
 
-		return ranges;
-	};
+	// 	return ranges;
+	// };
 
 	return (
 		<div
 			style={{
-				display: "flex",
-				flexDirection: "column",
-				width: "100%",
-				height: "100%",
-				alignItems: "center",
-			}}>
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				height: '100%',
+				alignItems: 'center',
+			}}
+		>
 			<Container>{/* <Editor analyze={analyze} /> */}</Container>
 		</div>
 	);

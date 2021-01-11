@@ -1,15 +1,15 @@
-import { Button, Input, message, Select, Spin, Tag } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import word2vec from "./Word2Vec";
-import { SimilarWord } from "../../interfaces";
-import ModelInfo from "./ModelInfo";
-import WordAlgebra from "./WordAlgebra";
-import WordEmbeddings from "./WordEmbeddings";
-import { DataPoint } from "../../interfaces";
-import { CenterContainer } from "../../styles/CenterContainer";
-import { UploadDialog } from "./UploadDialog";
+import { Button, message, Select, Spin, Tag } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import word2vec from './Word2Vec';
+import { SimilarWord } from '../../interfaces';
+import ModelInfo from './ModelInfo';
+import WordAlgebra from './WordAlgebra';
+import WordEmbeddings from './WordEmbeddings';
+import { DataPoint } from '../../interfaces';
+import { CenterContainer } from '../../styles/CenterContainer';
+import { UploadDialog } from './UploadDialog';
 
 const { Option } = Select;
 
@@ -20,7 +20,7 @@ const Container = styled.div`
 const wordVectors = word2vec();
 
 const Word2VecEditor = () => {
-	const [word, setWord] = useState("");
+	const [word, setWord] = useState('');
 	const [secondWord, setSecondWord] = useState<string[]>([]);
 	const [similarWords, setSimilarWords] = useState<SimilarWord[]>([]);
 	const [max, setMax] = useState(20);
@@ -28,9 +28,9 @@ const Word2VecEditor = () => {
 
 	const [isUploadDialogOpen, setUploadDialogOpen] = useState(false);
 
-	const [mathWord1, setMathWord1] = useState("");
-	const [mathWord2, setMathWord2] = useState("");
-	const [mathWord3, setMathWord3] = useState("");
+	const [mathWord1, setMathWord1] = useState('');
+	const [mathWord2, setMathWord2] = useState('');
+	const [mathWord3, setMathWord3] = useState('');
 	const [models, setModels] = useState([]);
 	const [loadingModels, setLoadingModels] = useState(true);
 
@@ -42,7 +42,7 @@ const Word2VecEditor = () => {
 	useEffect(() => {
 		setLoadingModels(true);
 
-		fetch(`/api/get-models`)
+		fetch('/api/get-models')
 			.then((data) => data.json())
 			.then((data) => {
 				setModels(data);
@@ -65,7 +65,7 @@ const Word2VecEditor = () => {
 					reset();
 				})
 				.catch((e) => {
-					message.error(`An error occurred.`);
+					message.error('An error occurred.');
 					console.log(e);
 				})
 				.finally(() => {
@@ -75,10 +75,10 @@ const Word2VecEditor = () => {
 	}, [modelIndex, models]);
 
 	const reset = () => {
-		setWord("");
-		setMathWord1("");
-		setMathWord2("");
-		setMathWord3("");
+		setWord('');
+		setMathWord1('');
+		setMathWord2('');
+		setMathWord3('');
 		setMax(20);
 		setGraphData([]);
 		setSimilarWords([]);
@@ -91,30 +91,42 @@ const Word2VecEditor = () => {
 			mathWord2.length === 0 &&
 			mathWord3.length === 0
 		) {
-			setMathWord1("germany");
-			setMathWord2("paris");
-			setMathWord3("france");
+			setMathWord1('germany');
+			setMathWord2('paris');
+			setMathWord3('france');
 
 			try {
-				const subResult = await wordVectors.subtract(["paris", "france"]);
-				const result = await wordVectors.add([subResult[0].word, "germany"]);
+				const subResult = await wordVectors.subtract([
+					'paris',
+					'france',
+				]);
+				const result = await wordVectors.add([
+					subResult[0].word,
+					'germany',
+				]);
 				setSimilarWords2(result);
 			} catch (e) {
 				console.log(e);
 
-				message.info(`No results were found.`);
+				message.info('No results were found.');
 			}
 		} else {
 			try {
-				const subResult = await wordVectors.subtract([mathWord2, mathWord3]);
+				const subResult = await wordVectors.subtract([
+					mathWord2,
+					mathWord3,
+				]);
 				if (subResult) {
-					const result = await wordVectors.add([subResult[0].word, mathWord1]);
+					const result = await wordVectors.add([
+						subResult[0].word,
+						mathWord1,
+					]);
 					setSimilarWords2(result);
 				}
 			} catch (e) {
 				console.log(e);
 
-				message.info(`No results were found.`);
+				message.info('No results were found.');
 			}
 		}
 	};
@@ -127,7 +139,7 @@ const Word2VecEditor = () => {
 		// TODO: Add Animation
 		return (
 			<CenterContainer>
-				<Spin style={{ marginLeft: "8px" }}></Spin>
+				<Spin style={{ marginLeft: '8px' }}></Spin>
 			</CenterContainer>
 		);
 	}
@@ -136,23 +148,32 @@ const Word2VecEditor = () => {
 		<Container>
 			<div
 				style={{
-					display: "flex",
-					width: "100%",
-					alignItems: "center",
-					justifyContent: "space-between",
-				}}>
+					display: 'flex',
+					width: '100%',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+				}}
+			>
 				<Select
 					loading={loading}
 					defaultValue={models[modelIndex]?.name}
 					style={{ width: 220 }}
 					optionLabelProp="label"
-					onChange={handleModelChange}>
+					onChange={handleModelChange}
+				>
 					{models.map((m) => {
 						return (
-							<Option disabled={m.disable} value={m.name} label={m.name}>
+							<Option
+								disabled={m.disable}
+								value={m.name}
+								label={m.name}
+							>
 								{m.name}
-								{m.name === "harry-potter" && (
-									<Tag style={{ marginLeft: "8px" }} color="geekblue">
+								{m.name === 'harry-potter' && (
+									<Tag
+										style={{ marginLeft: '8px' }}
+										color="geekblue"
+									>
 										new
 									</Tag>
 								)}
@@ -164,7 +185,8 @@ const Word2VecEditor = () => {
 				<Button
 					onClick={() => setUploadDialogOpen(true)}
 					icon={<UploadOutlined />}
-					type="primary">
+					type="primary"
+				>
 					Upload own modal
 				</Button>
 			</div>
@@ -172,7 +194,8 @@ const Word2VecEditor = () => {
 			<ModelInfo
 				loading={loading}
 				model={models[modelIndex]}
-				wordVectors={wordVectors}></ModelInfo>
+				wordVectors={wordVectors}
+			></ModelInfo>
 
 			<WordEmbeddings
 				word={word}
@@ -186,7 +209,8 @@ const Word2VecEditor = () => {
 				graphData={graphData}
 				setGraphData={setGraphData}
 				loading={loading}
-				wordVectors={wordVectors}></WordEmbeddings>
+				wordVectors={wordVectors}
+			></WordEmbeddings>
 
 			<WordAlgebra
 				loading={loading}
@@ -197,7 +221,8 @@ const Word2VecEditor = () => {
 				calculate={calculate}
 				onWord1Change={(e) => setMathWord1(e)}
 				onWord2Change={(e) => setMathWord2(e)}
-				onWord3Change={(e) => setMathWord3(e)}></WordAlgebra>
+				onWord3Change={(e) => setMathWord3(e)}
+			></WordAlgebra>
 			<UploadDialog
 				isOpen={isUploadDialogOpen}
 				onOk={() => setUploadDialogOpen(false)}

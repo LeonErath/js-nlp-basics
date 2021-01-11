@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'antd';
 import Link from 'next/link';
-import { A } from '../styles';
 
 const Container = styled.div`
 	width: 100%;
@@ -63,13 +62,23 @@ const Home = () => {
 				Explore, Learn, Discover natural language processing. Dive into
 				the deep world of artificial intelligence and linguistics.
 			</Headline2>
-			<Link href="/playground">
-				<A>
-					<Button type="primary" size="large" shape="round">
-						Let's Go
-					</Button>
-				</A>
-			</Link>
+
+			<div>
+				<Button type="primary" size="large" shape="round">
+					<Link href="/api/login">
+						<a>Let's Go</a>
+					</Link>
+				</Button>
+				<Button
+					size="large"
+					shape="round"
+					style={{ marginLeft: '8px' }}
+				>
+					<Link href="/playground">
+						<a>Explore</a>
+					</Link>
+				</Button>
+			</div>
 
 			<Lottie
 				options={{ ...defaultOptions, animationData: teaching }}

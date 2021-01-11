@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import React from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import Navbar from '../components/Navbar';
+import Navbar from './navigation/Navbar';
 import { useFetchUser, UserProvider } from '../lib/user';
 import { myTheme } from '../styles/Theme';
 
