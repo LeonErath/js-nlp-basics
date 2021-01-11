@@ -25,7 +25,7 @@
 		"@types/recharts": "^1.8.18",
 		"@types/styled-components": "^4.4.3",
 		"@vercel/node": "^1.8.5",
-		"antd": "^4.6.3",
+		"antd": "^4.10.2",
 		"aws-sdk": "^2.824.0",
 		"axios": "^0.21.1",
 		"classnames": "^2.2.6",
