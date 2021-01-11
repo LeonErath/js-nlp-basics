@@ -1,13 +1,12 @@
-import { ok } from "assert";
-import aws from "aws-sdk";
-import { MB_SIZE } from "../../data/filesize";
+import aws from 'aws-sdk';
+import { MB_SIZE } from '../../data/filesize';
 
 export default async function handler(req, res) {
 	aws.config.update({
 		accessKeyId: process.env.ACCESS_KEY,
 		secretAccessKey: process.env.SECRET_KEY,
 		region: process.env.REGION,
-		signatureVersion: "v4",
+		signatureVersion: 'v4',
 	});
 
 	const s3 = new aws.S3();
@@ -42,7 +41,7 @@ export default async function handler(req, res) {
 	});
 
 	const result = (await Promise.allSettled(promises))
-		.filter((res) => res.status === "fulfilled")
+		.filter((res) => res.status === 'fulfilled')
 		.map((res: any) => res.value);
 
 	return res.status(200).json(result);

@@ -1,5 +1,12 @@
 import { initAuth0 } from '@auth0/nextjs-auth0';
 
+const getDomain = () => {
+	if (process.env['STATIC_DOMAIN']) {
+		return 'https://' + process.env['STATIC_DOMAIN'];
+	}
+	return 'http://localhost:3000';
+};
+
 function getServerSetting(environmentVariable: string, defaultValue?: string) {
 	if (typeof window === 'undefined' && process.env[environmentVariable]) {
 		return process.env[environmentVariable];
@@ -8,22 +15,13 @@ function getServerSetting(environmentVariable: string, defaultValue?: string) {
 	return defaultValue || '';
 }
 
-console.log(
-	getServerSetting('NEXT_PUBLIC_VERCEL_URL', 'http://localhost:3000') +
-		'/api/callback'
-);
-
 export default initAuth0({
 	clientId: getServerSetting('AUTH0_CLIENT_ID'),
 	clientSecret: getServerSetting('AUTH0_CLIENT_SECRET'),
 	scope: 'openid profile email',
 	domain: getServerSetting('AUTH0_DOMAIN'),
-	redirectUri:
-		getServerSetting('NEXT_PUBLIC_VERCEL_URL', 'http://localhost:3000') +
-		'/api/callback',
-	postLogoutRedirectUri:
-		getServerSetting('NEXT_PUBLIC_VERCEL_URL', 'http://localhost:3000') +
-		'/logout',
+	redirectUri: getDomain() + '/api/callback',
+	postLogoutRedirectUri: getDomain() + '/logout',
 	session: {
 		cookieSecret: getServerSetting('SESSION_COOKIE_SECRET'),
 		cookieLifetime: 7200,

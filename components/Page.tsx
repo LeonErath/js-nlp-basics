@@ -17,7 +17,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Page = (props) => {
-	console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
 	const { user, loading } = useFetchUser();
 
 	return (
