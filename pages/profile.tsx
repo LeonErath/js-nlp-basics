@@ -1,14 +1,17 @@
 import {
 	CheckCircleTwoTone,
+	CopyOutlined,
 	LogoutOutlined,
 	SaveOutlined,
 } from '@ant-design/icons';
-import { Input, Form, Typography, Avatar, Button, Skeleton } from 'antd';
+import { Input, Form, Typography, Avatar, Button, message } from 'antd';
+import { useForm } from 'antd/lib/form/Form';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import withAuth from '../components/with-auth';
-import { useUser } from '../lib/user';
+import { updateUserInfo, UserInfo } from '../lib/api';
+import { UserProfile } from '../lib/user';
 
 const { Title } = Typography;
 
@@ -55,85 +58,107 @@ const ButtonContainer = styled.div`
 	}
 `;
 
-const Profile = () => {
+interface Props {
+	user: UserProfile;
+}
+
+const Profile = (props: Props) => {
+	const [form] = useForm();
 	const [hasChanged, setChanged] = useState(false);
-	const { user, loading } = useUser();
+
+	const { user } = props;
+
+	const updateProfile = async () => {
+		try {
+			const data = await form.validateFields();
+			const updates: UserInfo = {};
+			if (data.email && data.email !== user.email) {
+				updates['email'] = data.email;
+			}
+			if (data.name && data.name !== user.name) {
+				updates['name'] = data.name;
+			}
+
+			await updateUserInfo(user.sub, updates);
+			message.success('Your profile has been updated.');
+		} catch (err) {
+			message.error('Sadly we could not update your profile.');
+			form.setFieldsValue({ name: user.name });
+			form.setFieldsValue({ email: user.email });
+		}
+
+		setChanged(false);
+	};
 
 	return (
 		<Base>
 			<Container>
 				<Header>
-					{loading ? (
-						<Skeleton.Avatar size={128} active />
-					) : (
-						<Avatar size={128} src={user?.picture} />
-					)}
+					<Avatar size={128} src={user?.picture} />
 
 					<Title level={2} className="title">
-						Welcome {user?.nickname}
+						Welcome {user.nickname}
 						👋🏻
 					</Title>
 				</Header>
-				{user && (
-					<Form
-						layout="vertical"
-						name="profile"
-						onChange={() => setChanged(true)}
+
+				<Form
+					onFinish={updateProfile}
+					form={form}
+					layout="vertical"
+					name="profile"
+					onChange={() => setChanged(true)}
+				>
+					<Form.Item name="id" label="ID" initialValue={user.sub}>
+						<Input
+							readOnly
+							placeholder="Your user id"
+							addonAfter={<CopyOutlined onClick={() => {}} />}
+						/>
+					</Form.Item>
+					<Form.Item
+						name="name"
+						label="Name"
+						initialValue={user.name}
 					>
-						<Form.Item
-							name="name"
-							label="Name"
-							initialValue={user.name}
-							rules={[
-								{
-									required: true,
-									message:
-										'Please select a custom model to upload.',
-								},
-							]}
-						>
-							<Input placeholder="Here your name.."></Input>
-						</Form.Item>
-						<Form.Item
-							extra={
-								user.email_verified
-									? 'Your email has been verified.'
-									: null
+						<Input placeholder="Here your name.." />
+					</Form.Item>
+					<Form.Item
+						extra={
+							user.email_verified
+								? 'Your email has been verified.'
+								: null
+						}
+						name="email"
+						label="Email"
+						initialValue={user.email}
+					>
+						<Input
+							placeholder="Here your email.."
+							addonAfter={
+								user.email_verified ? (
+									<CheckCircleTwoTone twoToneColor="#52c41a" />
+								) : null
 							}
-							name="email"
-							label="Email"
-							initialValue={user.email}
-							rules={[
-								{
-									required: true,
-									message:
-										'Please select a custom model to upload.',
-								},
-							]}
-						>
-							<Input
-								placeholder="Here your email.."
-								addonAfter={
-									user.email_verified ? (
-										<CheckCircleTwoTone twoToneColor="#52c41a" />
-									) : null
-								}
-							></Input>
+						/>
+					</Form.Item>
+					<ButtonContainer>
+						<Form.Item>
+							<Button disabled={!hasChanged} htmlType="submit">
+								<SaveOutlined /> Save
+							</Button>
 						</Form.Item>
-					</Form>
-				)}
-				<ButtonContainer>
-					<Button disabled={!hasChanged}>
-						<SaveOutlined /> Save
-					</Button>
-					<Button danger>
-						<Link href="/api/logout">
-							<a>
-								<LogoutOutlined /> Logout
-							</a>
-						</Link>
-					</Button>
-				</ButtonContainer>
+						<Form.Item>
+							<Button danger>
+								<Link href="/api/logout">
+									<a>
+										<LogoutOutlined /> Logout
+									</a>
+								</Link>
+							</Button>
+						</Form.Item>
+					</ButtonContainer>
+				</Form>
 			</Container>
 		</Base>
 	);

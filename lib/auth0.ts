@@ -18,15 +18,17 @@ function getServerSetting(environmentVariable: string, defaultValue?: string) {
 export default initAuth0({
 	clientId: getServerSetting('AUTH0_CLIENT_ID'),
 	clientSecret: getServerSetting('AUTH0_CLIENT_SECRET'),
-	scope: 'openid profile email',
+	scope:
+		'openid profile email read:current_user update:current_user_metadata offline_access',
 	domain: getServerSetting('AUTH0_DOMAIN'),
 	redirectUri: getDomain() + '/api/callback',
 	postLogoutRedirectUri: getDomain() + '/logout',
+	audience: 'https://nlp-basics.eu.auth0.com/api/v2/',
 	session: {
 		cookieSecret: getServerSetting('SESSION_COOKIE_SECRET'),
 		cookieLifetime: 7200,
-		storeIdToken: false,
-		storeRefreshToken: false,
-		storeAccessToken: false,
+		storeIdToken: true,
+		storeRefreshToken: true,
+		storeAccessToken: true,
 	},
 });
