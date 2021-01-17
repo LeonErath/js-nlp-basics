@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import withAuth from '../../components/with-auth';
+
 import Word2VecEditor from '../../components/word2vec';
 
 const Container = styled.div`
@@ -33,4 +33,4 @@ const word2vec = () => {
 	);
 };
 
-export default withAuth(word2vec);
+export default word2vec;

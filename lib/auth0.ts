@@ -22,7 +22,7 @@ export default initAuth0({
 		'openid profile email read:current_user update:current_user_metadata offline_access',
 	domain: getServerSetting('AUTH0_DOMAIN'),
 	redirectUri: getDomain() + '/api/callback',
-	postLogoutRedirectUri: getDomain() + '/logout',
+	postLogoutRedirectUri: getDomain() + '/',
 	audience: 'https://nlp-basics.eu.auth0.com/api/v2/',
 	session: {
 		cookieSecret: getServerSetting('SESSION_COOKIE_SECRET'),

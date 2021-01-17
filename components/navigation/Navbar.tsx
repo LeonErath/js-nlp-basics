@@ -1,16 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { Avatar, Button, Dropdown, Menu, Spin } from 'antd';
+import { Avatar, Button, Dropdown, Menu } from 'antd';
 import Logo from '../Logo';
 import { A } from '../../styles/A';
 import { maxWidth } from '../../styles/Theme';
-import {
-	BarsOutlined,
-	DownOutlined,
-	LoginOutlined,
-	UserOutlined,
-} from '@ant-design/icons';
+import { BarsOutlined, DownOutlined, UserOutlined } from '@ant-design/icons';
 import { useUser } from '../../lib/user';
 import { Breadcrumbs } from './Breadcrumbs';
 
@@ -82,31 +77,9 @@ const MenuDiv = styled(Menu)`
 `;
 
 const Navbar = () => {
-	const { user, loading } = useUser();
+	const { user } = useUser();
 
 	const renderProfileDropdown = () => {
-		if (loading) {
-			return <Spin spinning={loading}></Spin>;
-		}
-		if (!user) {
-			return (
-				<div>
-					<Button type="primary" shape="round">
-						<Link href="/api/login">
-							<a>
-								<LoginOutlined /> Login
-							</a>
-						</Link>
-					</Button>
-					<Button style={{ marginLeft: '8px' }} shape="round">
-						<Link href="/api/login">
-							<a>Register</a>
-						</Link>
-					</Button>
-				</div>
-			);
-		}
-
 		const menu = (
 			<Menu>
 				<Menu.Item>

@@ -64,18 +64,9 @@ const Home = () => {
 			</Headline2>
 
 			<div>
-				<Button type="primary" size="large" shape="round">
-					<Link href="/api/login">
-						<a>Let's Go</a>
-					</Link>
-				</Button>
-				<Button
-					size="large"
-					shape="round"
-					style={{ marginLeft: '8px' }}
-				>
-					<Link href="/playground">
-						<a>Explore</a>
+				<Button size="large" shape="round">
+					<Link href="/docs">
+						<a>Docs</a>
 					</Link>
 				</Button>
 			</div>

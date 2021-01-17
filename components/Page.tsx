@@ -4,6 +4,8 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Navbar from './navigation/Navbar';
 import { useFetchUser, UserProvider } from '../lib/user';
 import { myTheme } from '../styles/Theme';
+import RedirectToLogin from './login-redirect';
+import { LoadingSpinner } from './LoadingSpinner';
 
 const GlobalStyle = createGlobalStyle`
 	html,body {
@@ -18,6 +20,14 @@ const GlobalStyle = createGlobalStyle`
 
 const Page = (props) => {
 	const { user, loading } = useFetchUser();
+
+	if (!user && !loading) {
+		return <RedirectToLogin />;
+	}
+
+	if (loading) {
+		return <LoadingSpinner text="Signing you in..." />;
+	}
 
 	return (
 		<UserProvider value={{ user, loading }}>

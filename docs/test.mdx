@@ -1,0 +1,51 @@
+---
+title: Enough JavaScript to get you Started #11 Functions
+description: This frontmatter description will appear below the title
+tags: [javascript, webdev, beginners]
+author: Adarsh Pandya
+date: 17\.01\.2021
+---
+
+## How to ruin your code (story) ? ☠
+
+👉 As i said earlier , when i was beginning with programming i was so foolish to not to follow coding principles like DRY (don't repeat yourself).
+
+👉 One definition was assigned to me , which was "write a program where have to do addition of 2 numbers 3 times"
+
+👉 The code i wrote earlier :
+
+```javascript
+var num1 = propmt('Enter no : ');
+var num2 = propmt('Enter no : ');
+var res = 0;
+res = num1 + num2;
+console.log(res);
+var num3 = propmt('Enter no : ');
+var num4 = propmt('Enter no : ');
+res = num3 + num4;
+console.log(res);
+var num5 = propmt('Enter no : ');
+var num6 = propmt('Enter no : ');
+res = num5 + num6;
+console.log(res);
+```
+
+👉 This does make sense as a beginner , but when you think in terms of performance optimization , speed and quality of code - this doesn't make any sense.
+
+👉 After that i was introduced to concept known as Function
+
+## Functions :
+
+👉 According to internet , Functions are one of the fundamental building blocks in JavaScript. A function in JavaScript is similar to a procedure—a set of statements that performs a task or calculates a value, but for a procedure to qualify as a function, it should take some input and return an output where there is some obvious relationship between the input and the output.
+
+👉 To put it more simply and making it clear we'll go to our previous definition of 3 times of addition. so what we can say is that a perfect function is a mechanism to reduce that 3 times repeating code into simple block of code which can work for 3 or 30 or even 300 times depending on logic inside it. function simply means act of writing a reusable code.
+
+## Syntax of function
+
+👉 Making a function can be defined in three steps
+
+Function Definition : telling your compiler that there's a function in our program.
+
+Function Body : Block of code to be executed when function gets called.
+
+Function Call : Calling a function simply tells your compiler that execute the code written in function body in respective context.

@@ -9,9 +9,8 @@ import { useForm } from 'antd/lib/form/Form';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import withAuth from '../components/with-auth';
 import { updateUserInfo, UserInfo } from '../lib/api';
-import { UserProfile } from '../lib/user';
+import { useUser } from '../lib/user';
 
 const { Title } = Typography;
 
@@ -58,15 +57,11 @@ const ButtonContainer = styled.div`
 	}
 `;
 
-interface Props {
-	user: UserProfile;
-}
-
-const Profile = (props: Props) => {
+const Profile = () => {
 	const [form] = useForm();
 	const [hasChanged, setChanged] = useState(false);
 
-	const { user } = props;
+	const { user } = useUser();
 
 	const updateProfile = async () => {
 		try {
@@ -164,4 +159,4 @@ const Profile = (props: Props) => {
 	);
 };
 
-export default withAuth(Profile);
+export default Profile;
