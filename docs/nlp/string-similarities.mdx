@@ -1,0 +1,11 @@
+---
+title: String Similarities
+description: Introduction to String Similarities
+tags: [javascript, nlp, beginners]
+author: Leon Erath
+date: 17\.01\.2021
+---
+
+### Algorithms
+
+As can be seen in formula (2) and (3), it needs an algorithm to determine the similarity. The algorithm is a comparison function that compares the attribute values ​​of the data with one another. A distinction is made between determining the similarity of numbers and character strings. The determination of the similarity of numbers is trivial and is therefore not discussed further. The result of the similarity function is a value between 0 (no similarity) and 1 (complete equality). [7] When looking at algorithms for determining similarity, they were divided into different classes (see Figure 4). These classes are divided into character string, token, hybrid, phonetic and domain-specific. In the case of the class of character strings, the similarity is calculated using matching letters. With the token-based algorithms, the character strings are divided into tokens and then compared. A token is the basic analysis unit [2]. Hybrid algorithms use both token and letter comparisons to get a better result. The phonetic algorithms examine the sound of strings. This is not required for the CBIS data cleansing and is therefore not considered further. The domain-specific algorithms must always be adapted to the corresponding domain and examine special types of duplicates. [7] Based on the evaluation of [3], it can be assumed that the Jaro-Winkler distance and the Monge-Elkan similarity have the necessary quality for integration.

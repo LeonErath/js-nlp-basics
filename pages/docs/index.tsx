@@ -36,37 +36,37 @@ const Index = ({ posts }: Props) => {
 				itemLayout="horizontal"
 				dataSource={posts}
 				renderItem={(item) => (
-					<Link
-						as={`/docs/${item.filePath.replace(/\.mdx?$/, '')}`}
-						href={'/docs/[slug]'}
+					<List.Item
+						actions={[
+							<IconText
+								icon={StarOutlined}
+								text="156"
+								key="list-vertical-star-o"
+							/>,
+							<IconText
+								icon={LikeOutlined}
+								text="156"
+								key="list-vertical-like-o"
+							/>,
+							<IconText
+								icon={MessageOutlined}
+								text="2"
+								key="list-vertical-message"
+							/>,
+						]}
 					>
-						<a>
-							<List.Item
-								actions={[
-									<IconText
-										icon={StarOutlined}
-										text="156"
-										key="list-vertical-star-o"
-									/>,
-									<IconText
-										icon={LikeOutlined}
-										text="156"
-										key="list-vertical-like-o"
-									/>,
-									<IconText
-										icon={MessageOutlined}
-										text="2"
-										key="list-vertical-message"
-									/>,
-								]}
-							>
+						<Link
+							as={`/docs/${item.filePath.replace(/\.mdx?$/, '')}`}
+							href={'/docs/[slug]'}
+						>
+							<a style={{ width: '100%' }}>
 								<List.Item.Meta
 									title={item.data.title}
 									description={item.data.description}
 								/>
-							</List.Item>
-						</a>
-					</Link>
+							</a>
+						</Link>
+					</List.Item>
 				)}
 			/>
 		</Layout>
@@ -74,7 +74,7 @@ const Index = ({ posts }: Props) => {
 };
 
 export function getStaticProps() {
-	const posts = postFilePaths.map((filePath) => {
+	const posts = postFilePaths(POSTS_PATH).map((filePath) => {
 		const source = fs.readFileSync(path.join(POSTS_PATH, filePath));
 		const { content, data } = matter(source);
 

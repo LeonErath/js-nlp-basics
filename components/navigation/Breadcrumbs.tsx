@@ -40,17 +40,13 @@ export const Breadcrumbs = () => {
 
 	const capitalize = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 
-	if (breadcrumbs.length < 1) {
-		return null;
-	}
-
 	return (
 		<Container>
 			<Breadcrumb separator=">">
 				<Breadcrumb.Item>
 					<Link href="/">
 						<a>
-							<HomeOutlined />
+							<HomeOutlined /> Home
 						</a>
 					</Link>
 				</Breadcrumb.Item>

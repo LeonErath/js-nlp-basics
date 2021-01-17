@@ -30,6 +30,7 @@
 		"axios": "^0.21.1",
 		"classnames": "^2.2.6",
 		"compromise": "^13.8.0",
+		"fs": "^0.0.1-security",
 		"gray-matter": "^4.0.2",
 		"husky": "^4.3.7",
 		"next": "^10.0.5",

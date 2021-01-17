@@ -6,6 +6,7 @@ import { useFetchUser, UserProvider } from '../lib/user';
 import { myTheme } from '../styles/Theme';
 import RedirectToLogin from './login-redirect';
 import { LoadingSpinner } from './LoadingSpinner';
+import Sidebar from './navigation/Sidebar';
 
 const GlobalStyle = createGlobalStyle`
 	html,body {
@@ -40,8 +41,17 @@ const Page = (props) => {
 						flexFlow: 'column',
 					}}
 				>
-					<Navbar></Navbar>
-					{props.children}
+					<Navbar />
+					<div
+						style={{
+							height: '100%',
+							display: 'flex',
+							flexFlow: 'row',
+						}}
+					>
+						<Sidebar />
+						{props.children}
+					</div>
 				</div>
 			</ThemeProvider>
 		</UserProvider>

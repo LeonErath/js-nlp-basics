@@ -6,7 +6,7 @@ import Head from 'next/head';
 import path from 'path';
 import Link from 'next/link';
 import { Layout } from '../../components/docs/Layout';
-import { postFilePaths, POSTS_PATH } from '../../util/mdxUtils';
+import { NLP_POSTS_PATH, postFilePaths } from '../../util/mdxUtils';
 import { Typography, Tag } from 'antd';
 import { CodeBlock } from '../../components/docs/CodeBlock';
 
@@ -58,7 +58,7 @@ const PostPage = ({ source, frontMatter }) => {
 };
 
 export const getStaticProps = async ({ params }) => {
-	const postFilePath = path.join(POSTS_PATH, `${params.slug}.mdx`);
+	const postFilePath = path.join(NLP_POSTS_PATH, `${params.slug}.mdx`);
 	const source = fs.readFileSync(postFilePath);
 
 	const { content, data } = matter(source);
@@ -82,7 +82,7 @@ export const getStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths = async () => {
-	const paths = postFilePaths(POSTS_PATH)
+	const paths = postFilePaths(NLP_POSTS_PATH)
 		// Remove file extensions for page paths
 		.map((path) => path.replace(/\.mdx?$/, ''))
 		// Map the path into the static paths object required by Next.js
