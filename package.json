@@ -39,7 +39,7 @@
 		"prettier": "^2.2.1",
 		"prism-react-renderer": "^1.1.1",
 		"react": "^16.14.0",
-		"react-dom": "^16.13.0",
+		"react-dom": "^16.14.0",
 		"react-lottie": "^1.2.3",
 		"react-scripts": "3.4.0",
 		"recharts": "^1.8.5",
