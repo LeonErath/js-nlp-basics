@@ -32,7 +32,7 @@
 		"compromise": "^13.8.0",
 		"fs": "^0.0.1-security",
 		"gray-matter": "^4.0.2",
-		"husky": "^4.3.7",
+		"husky": "^4.3.8",
 		"next": "^10.0.5",
 		"next-mdx-remote": "^2.1.1",
 		"nprogress": "^0.2.0",
