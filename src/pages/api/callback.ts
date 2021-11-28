@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import auth0 from "../../lib/auth0";
+import auth0 from "../../lib/authentication/auth0";
 import { internalServerError } from "../../util/api.util";
 
 export default async function callback(

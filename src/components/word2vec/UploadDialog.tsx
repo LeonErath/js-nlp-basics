@@ -8,7 +8,7 @@ import {
 import { Button, Form, Input, message, Modal, Progress, Select } from "antd";
 import Dragger from "antd/lib/upload/Dragger";
 import axios from "axios";
-import { word2vec as wordVectors } from "./Word2Vec";
+import { word2vec as wordVectors } from "../../lib/word2vec/Word2Vec";
 import React, { useEffect, useState } from "react";
 import { getLanguage, langauges } from "../../data/languages";
 import { RcFile } from "antd/lib/upload";

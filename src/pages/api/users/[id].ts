@@ -1,6 +1,6 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import auth0 from "../../../lib/auth0";
+import auth0 from "../../../lib/authentication/auth0";
 import { internalServerError } from "../../../util/api.util";
 
 const userHandler = (req: NextApiRequest, res: NextApiResponse) => {

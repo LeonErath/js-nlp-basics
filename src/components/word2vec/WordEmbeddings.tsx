@@ -15,7 +15,7 @@ import Graph from "./Graph";
 import styled from "styled-components";
 import { DataPoint } from "../../interfaces";
 import { CodeBlock } from "../code/CodeBlock";
-import { Word2Vec } from "./Word2Vec";
+import { Word2Vec } from "../../lib/word2vec/Word2Vec";
 
 interface Props {
   url: string;

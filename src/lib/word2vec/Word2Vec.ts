@@ -2,16 +2,16 @@
 // https://github.com/ml5js/ml5-library/blob/4e002da3f17800cd9fc3aca99a9b9b0e6f6c02f2/src/Word2vec/index.js
 
 import * as tf from "@tensorflow/tfjs";
-
-import { OperationType, SimilarWord } from "../../interfaces";
-import * as tsne from "./tsne";
-import { DataPoint } from "../../interfaces";
+import { TensorLike1D } from "@tensorflow/tfjs-core/dist/types";
+import { DataPoint, OperationType, SimilarWord } from "../../interfaces";
+import { TSNE } from "./TSNE";
 
 export class Word2Vec {
-  model: any = {};
+  model: { [key: string]: tf.Tensor1D } = {};
   modelSize: number = 0;
   modelLoaded: boolean = false;
   vectorDimensions: number = 0;
+  steps: number = 500;
 
   constructor() {
     this.model = {};
@@ -21,7 +21,7 @@ export class Word2Vec {
     this.modelLoaded = false;
   }
 
-  loadModel(model: any) {
+  loadModel(model: { vectors: { [key: string]: TensorLike1D } }) {
     return new Promise<void>((resolve, reject) => {
       try {
         Object.keys(model.vectors).forEach((word) => {
@@ -48,13 +48,11 @@ export class Word2Vec {
   ): Promise<DataPoint[]> => {
     return new Promise((resolve, reject) => {
       try {
-        var opt = {
+        const tsne = new TSNE({
           epsilon,
           perplexity,
-          dim: 2,
-        };
+        });
 
-        const TSNE = new tsne.tSNE(opt); // create a tSNE instance
         let names: Array<string> = [];
         let inputForName: Array<string> = [];
 
@@ -82,13 +80,13 @@ export class Word2Vec {
           return vectors;
         });
 
-        TSNE.initDataRaw(vectors);
+        tsne.initDataRaw(vectors);
 
-        for (var k = 0; k < 500; k++) {
-          TSNE.step();
+        for (var k = 0; k < this.steps; k++) {
+          tsne.step();
         }
 
-        var Y = TSNE.getSolution();
+        var Y = tsne.getSolution();
 
         const data: DataPoint[] = Y.map((d: Array<number>, index: number) => ({
           x: d[0],
@@ -120,16 +118,15 @@ export class Word2Vec {
     if (!this.modelLoaded) {
       return;
     }
+
     return tf.tidy(() => {
       const sum = Word2Vec.addOrSubtract(this.model, inputs, OperationType.ADD);
-      const result = Word2Vec.nearest(
+      return Word2Vec.nearest(
         this.model,
         sum,
         inputs.length,
         inputs.length + max
       ) as any;
-
-      return result;
     });
   }
 

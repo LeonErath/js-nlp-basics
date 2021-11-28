@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import auth0 from "../lib/auth0";
-import { fetchUser } from "../lib/user";
-import createLoginUrl from "../lib/url-helper";
+import auth0 from "../lib/authentication/auth0";
+import { fetchUser } from "../lib/authentication/user";
+import createLoginUrl from "../lib/authentication/url-helper";
 import RedirectToLogin from "../components/login-redirect";
 
 type AuthenticatedProps = {

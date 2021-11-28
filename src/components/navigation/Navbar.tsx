@@ -6,7 +6,7 @@ import Logo from "../Logo";
 import { A } from "../../styles/A";
 import { maxWidth } from "../../styles/Theme";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import { useUser } from "../../lib/user";
+import { useUser } from "../../lib/authentication/user";
 import { Breadcrumbs } from "./Breadcrumbs";
 
 const MenuBar = styled.div`

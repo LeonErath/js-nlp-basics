@@ -2,7 +2,7 @@ import { Button, message, Select, Spin, Tag } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { word2vec as wordVectors } from "./Word2Vec";
+import { word2vec as wordVectors } from "../../lib/word2vec/Word2Vec";
 import { SimilarWord } from "../../interfaces";
 import ModelInfo from "./ModelInfo";
 import WordAlgebra from "./WordAlgebra";
