@@ -16,6 +16,7 @@ import styled from "styled-components";
 import { DataPoint } from "../../interfaces";
 import { CodeBlock } from "../code/CodeBlock";
 import { Word2Vec } from "../../lib/word2vec/Word2Vec";
+import { SyncOutlined } from "@ant-design/icons";
 
 interface Props {
   url: string;
@@ -111,6 +112,14 @@ const WordEmbeddings = ({
     }
   };
 
+  const randomize = async () => {
+    const randomWord = await wordVectors.getRandomWord();
+    setWord(randomWord);
+
+    getNearestVectors(randomWord);
+    makeGraph(randomWord);
+  };
+
   const addWord = () => {
     if (secondWord.length !== 0) {
       wordVectors
@@ -179,27 +188,28 @@ const WordEmbeddings = ({
       <div
         style={{
           display: "flex",
+          flexDirection: "row",
           width: "100%",
           flexWrap: "wrap",
+          alignItems: "center",
+          gap: "8px",
         }}
       >
-        <Input
-          disabled={loading}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleEmbeddings();
-            }
-          }}
-          value={word}
-          style={{
-            marginRight: "8px",
-            marginTop: "16px",
-            maxWidth: "400px",
-            minWidth: "200px",
-          }}
-          placeholder="Type a word..."
-          onChange={(e) => setWord(e.target.value)}
-        />
+        <Input.Group compact style={{ width: "300px" }}>
+          <Input
+            disabled={loading}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleEmbeddings();
+              }
+            }}
+            value={word}
+            style={{ width: "calc(300px - 32px)" }}
+            placeholder="Type a word..."
+            onChange={(e) => setWord(e.target.value)}
+          />
+          <Button onClick={randomize} icon={<SyncOutlined />} />
+        </Input.Group>
         <InputNumber
           disabled={loading}
           min={1}
@@ -210,17 +220,11 @@ const WordEmbeddings = ({
               setMax(Number(e.toString()));
             }
           }}
-          style={{ marginRight: "8px", marginTop: "16px" }}
         />
-        <Button
-          onClick={handleEmbeddings}
-          disabled={loading}
-          style={{ marginRight: "8px", marginTop: "16px" }}
-        >
+        <Button onClick={handleEmbeddings} disabled={loading}>
           Calculate
         </Button>
         <Radio.Group
-          style={{ marginTop: "16px" }}
           onChange={() => {
             setShowGraph(!showGraph);
           }}
